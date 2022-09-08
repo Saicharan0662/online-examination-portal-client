@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
 import '../axios';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
@@ -8,6 +9,7 @@ import { Button } from '@mui/material';
 
 const Login = () => {
 
+    const navigate = useNavigate();
     const [input, setInput] = useState({ email: '', password: '', userType: "student" });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -19,6 +21,7 @@ const Login = () => {
         }).then(res => {
             localStorage.setItem('userData', JSON.stringify(res.data))
             setIsLoading(false)
+            navigate('/dashboard')
         }).catch(err => {
             console.log(err)
             setIsLoading(false)

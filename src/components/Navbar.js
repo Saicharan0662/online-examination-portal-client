@@ -14,7 +14,10 @@ const Navbar = ({ btnText = "text", path = "#", isLoading = false }) => {
                     variant='outlined'
                     size='small'
                     style={{ color: 'white' }}
-                    onClick={() => navigate(`${path}`)}
+                    onClick={() => {
+                        if (btnText === 'Logout') localStorage.clear()
+                        navigate(`${path}`)
+                    }}
                 >
                     {btnText}
                 </Button>
