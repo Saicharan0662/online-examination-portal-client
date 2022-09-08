@@ -9,15 +9,19 @@ import { Button } from '@mui/material';
 const Signup = () => {
 
     const [input, setInput] = useState({ name: '', email: '', password: '', userType: "student" })
+    const [isLoading, setIsLoading] = useState(false);
 
     const signup = e => {
         e.preventDefault();
+        setIsLoading(true)
         axios.post(`/auth/register`, {
             ...input
         }).then(res => {
             console.log(res)
+            setIsLoading(false)
         }).catch(err => {
             console.log(err)
+            setIsLoading(false)
         })
         setInput({
             name: "",
@@ -32,6 +36,7 @@ const Signup = () => {
             <Navbar
                 btnText='Login'
                 path='/login'
+                isLoading={isLoading}
             />
             <div className='flex flex-col justify-center items-center md:bg-gray-100' style={{ height: '93vh' }}>
                 <div className='md:p-8 bg-white rounded-md'>

@@ -8,18 +8,22 @@ import { Button } from '@mui/material';
 
 const Login = () => {
 
-    const [input, setInput] = useState({ email: '', password: '', userType: "student" })
+    const [input, setInput] = useState({ email: '', password: '', userType: "student" });
+    const [isLoading, setIsLoading] = useState(false);
 
     const login = e => {
         e.preventDefault();
-        // console.log(input)
+        setIsLoading(true)
         axios.post(`/auth/login`, {
             ...input
         }).then(res => {
             localStorage.setItem('userData', JSON.stringify(res.data))
+            setIsLoading(false)
         }).catch(err => {
             console.log(err)
+            setIsLoading(false)
         })
+
         setInput({
             email: '',
             password: '',
@@ -32,6 +36,7 @@ const Login = () => {
             <Navbar
                 btnText='Register'
                 path='/signup'
+                isLoading={isLoading}
             />
             <div className='flex flex-col justify-center items-center md:bg-gray-100' style={{ height: '93vh' }}>
                 <div className='md:p-8 bg-white rounded-md'>
