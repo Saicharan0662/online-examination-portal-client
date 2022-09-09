@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import ResetPassword from './pages/ResetPassword';
+import ActivateAccount from './pages/ActivateAccount';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
+          <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />
         </Routes>
       </Router>
     </div>
