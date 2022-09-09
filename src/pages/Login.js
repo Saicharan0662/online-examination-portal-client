@@ -15,6 +15,10 @@ const Login = () => {
 
     const login = e => {
         e.preventDefault();
+        if (!input.email || !input.password) {
+            alert('Please fill all the fields');
+            return;
+        }
         setIsLoading(true)
         axios.post(`/auth/login`, {
             ...input
@@ -34,6 +38,27 @@ const Login = () => {
         })
     }
 
+    const getResetLink = e => {
+        e.preventDefault();
+        if (!input.email) {
+            alert('Please enter email');
+            return;
+        }
+        setIsLoading(true)
+        axios.post(`/auth/forgot-password`, {
+            email: input.email,
+            userType: input.userType
+        }).then(res => {
+            console.log(res);
+            alert(res.data.msg)
+            setIsLoading(false)
+        }).catch(err => {
+            console.log(err)
+            setIsLoading(false)
+        })
+
+    }
+
     return (
         <div className=''>
             <Navbar
@@ -44,9 +69,9 @@ const Login = () => {
             <div className='flex flex-col justify-center items-center md:bg-gray-100' style={{ height: '93vh' }}>
                 <div className='md:p-8 bg-white rounded-md'>
                     <h2 className='text-xl mx-2 md:text-2xl font-semibold'>Log in</h2>
-                    <form onSubmit={login} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-8'>
-                        <TextField type={'email'} required fullWidth id="outlined-basic" label="Email" variant="outlined" size='small' value={input.email} onChange={e => setInput({ ...input, email: e.target.value })} />
-                        <TextField type={'password'} required fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
+                    <form onSubmit={login} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-6'>
+                        <TextField type={'email'} fullWidth id="outlined-basic" label="Email" variant="outlined" size='small' value={input.email} onChange={e => setInput({ ...input, email: e.target.value })} />
+                        <TextField type={'password'} fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
@@ -58,6 +83,7 @@ const Login = () => {
                             renderInput={(params) => <TextField {...params} label="Category" />}
                             size='small'
                         />
+                        <p className='text-xs text-blue-500 font-normal self-end -my-4 cursor-pointer' onClick={getResetLink}>Forget password</p>
                         <Button type='submit' variant="contained" size='small' className='self-start'>Login</Button>
                     </form>
                 </div>
