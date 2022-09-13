@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../axios';
+import ExamCard from '../components/ExamCard';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import ExamCard from '../components/ExamCard';
 
-const ExaminerDashBoard = ({ user }) => {
+const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const [exams, setExams] = useState([])
 
     const getExams = () => {
+        setIsLoading(true)
         axios.get('/exam')
             .then(res => {
                 setExams(res.data.exams)
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err)
+                setIsLoading(false)
             })
     }
 
     useEffect(() => {
         getExams();
-    }, [])
+    })
 
 
     return (
@@ -42,9 +45,15 @@ const ExaminerDashBoard = ({ user }) => {
                         <div className='flex gap-y-4 justify-around flex-wrap'>
                             {exams.map((exam, index) => {
                                 return (
-                                    <ExamCard exam={exam} key={index} />
+                                    <ExamCard exam={exam} key={index} setIsLoading={setIsLoading} getExams={getExams} />
                                 )
                             })}
+                            {isLoading && exams?.length === 0 && <p>Loading...</p>}
+                            {!isLoading && exams?.length === 0 &&
+                                <div className=' mt-16'>
+                                    <p className='text-xl font-semibold'>No Exams Found</p>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

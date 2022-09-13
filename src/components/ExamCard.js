@@ -6,15 +6,19 @@ import deleteIcon from '../asserts/icons/deleteIcon.png'
 import editIcon from '../asserts/icons/edit.png'
 
 
-const ExamCard = ({ exam }) => {
+const ExamCard = ({ exam, setIsLoading, getExams }) => {
 
     const deleteExam = (examID) => {
+        setIsLoading(true)
         axios.delete(`/exam/${examID}`)
             .then(res => {
                 console.log(res)
+                getExams()
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err)
+                setIsLoading(false)
             })
     }
 
