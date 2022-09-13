@@ -1,0 +1,40 @@
+.bg-blue-pattern {
+    background-image: url('./asserts/background/bgPatternExaminer.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.exam-card-width {
+    width: 45%;
+}
+
+.dashboard-width {
+    width: 75%;
+}
+
+@media screen and (max-width: 1072px) {
+    .exam-card-width {
+        width: 500px;
+    }
+}
+
+@media screen and (max-width: 706px) {
+    .exam-card-width {
+        width: 80%;
+    }
+
+    .dashboard-width {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .dashboard-width {
+        width: 100%;
+    }
+
+    .dashboard-content {
+        margin: 0 8px;
+    }
+}

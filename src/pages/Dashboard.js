@@ -17,7 +17,7 @@ const Dashboard = () => {
                 btnText='Logout'
                 path='/'
             />
-            {user?.userType === 'examiner' ? <ExaminerDashBoard />
+            {user?.userType === 'examiner' ? <ExaminerDashBoard user={user} />
                 : <StudentDashBoard />}
             {/* </div> */}
         </>
