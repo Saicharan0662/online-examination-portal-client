@@ -24,7 +24,7 @@ const ExamCard = ({ exam, setIsLoading, getExams }) => {
 
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
-            <h1 className='text-lg font-semibold'>{exam.name.toUpperCase()}</h1>
+            <h1 className='text-lg font-semibold truncate ' style={{ width: '85%' }}>{exam.name.toUpperCase()}</h1>
             <p className='font-normal font-tiny -mt-1 mb-2'>{exam.description}</p>
             <div>
                 {exam.topics.map((tag, index) => {
