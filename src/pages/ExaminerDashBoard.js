@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import ExamCard from '../components/ExamCard';
@@ -7,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
+    const navigate = useNavigate()
     const [exams, setExams] = useState([])
 
     const getExams = () => {
@@ -24,7 +26,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     useEffect(() => {
         getExams();
-    })
+    }, [])
 
 
     return (
@@ -37,7 +39,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
                     <div className=' my-6'>
                         <div className='flex justify-between'>
                             <h1 className='text-xl font-bold'>Dashboard</h1>
-                            <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />}>create exam</Button>
+                            <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />} onClick={() => navigate('/create-exam')}>create exam</Button>
                         </div>
                     </div>
                     <div className='my-6'>

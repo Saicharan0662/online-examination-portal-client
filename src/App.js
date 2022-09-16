@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import ResetPassword from './pages/ResetPassword';
 import ActivateAccount from './pages/ActivateAccount';
+import ExamForm from './components/ExamForm';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/dashboard' element={<Dashboard />} />
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
           <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />
+          <Route exact path='/create-exam' element={<ExamForm />} />
         </Routes>
       </Router>
     </div>
