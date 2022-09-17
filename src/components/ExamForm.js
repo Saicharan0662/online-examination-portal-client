@@ -37,16 +37,16 @@ const ExamForm = () => {
         setIsLoading(true)
         let createdQuestions = []
         let createdTopics = []
-        data[0].questions.map((item, i) => {
+        data[0].questions.map((item, i) => (
             createdQuestions.push({
                 question: item.question,
                 options: [item.option1, item.option2, item.option3, item.option4],
                 answer: item.answer.value
             })
-        })
-        data[0].topics.map((item, i) => {
+        ))
+        data[0].topics.map((item, i) => (
             createdTopics.push(item.title)
-        })
+        ))
 
         axios.post(`/exam`, {
             name: data[0].name,

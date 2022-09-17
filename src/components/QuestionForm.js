@@ -70,7 +70,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                         fullWidth
                         options={quizOptions}
                         getOptionLabel={(option) => option.value}
-                        defaultValue={null}
+                        defaultValue={[]}
                         value={question.answer}
                         onChange={(e, value) => setQuestion({ ...question, answer: value })}
                         renderInput={(params) => (
