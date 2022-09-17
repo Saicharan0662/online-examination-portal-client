@@ -31,7 +31,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                             saved.questions.map((item, i) => {
                                 return (
                                     <>
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`Question ${index + 1}`} variant="standard" size='small' value={item.question} disabled />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`Question ${i + 1}`} variant="standard" size='small' value={item.question} disabled />
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`option 1`} variant="filled" size='small' value={item.option1} disabled />
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`option 2`} variant="filled" size='small' value={item.option2} disabled />
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`option 3`} variant="filled" size='small' value={item.option3} disabled />
@@ -86,7 +86,6 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                         let newInput = [...data];
                         newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
                         setData(newInput);
-                        console.log(newInput)
                         setQuestion({
                             question: '',
                             option1: '',
@@ -102,6 +101,21 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                 Previous
             </Button>
             <Button variant="contained" size='small' color='success' className='float-right relative top-2' onClick={() => {
+                if (!question.question || !question.option1 || !question.option2 || !question.option3 || !question.option4 || !question.answer) {
+                    alert('Please fill all the fields')
+                    return;
+                }
+                let newInput = [...data];
+                newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
+                setData(newInput);
+                setQuestion({
+                    question: '',
+                    option1: '',
+                    option2: '',
+                    option3: '',
+                    option4: '',
+                    answer: { id: 1, value: 'option 2' }
+                })
                 createQuestion()
             }}>
                 Submit

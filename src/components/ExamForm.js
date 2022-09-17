@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import QuestionForm from './QuestionForm';
@@ -18,7 +19,9 @@ const topicOptions = [
 
 const ExamForm = () => {
 
+    const navigate = useNavigate();
     const [step, setStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false)
     const [input, setInput] = useState({
         name: '',
         description: '',
@@ -30,7 +33,8 @@ const ExamForm = () => {
     const [data, setData] = useState([])
 
     const createQuestion = () => {
-        console.log(data)
+        // console.log(data)
+        setIsLoading(true)
         let createdQuestions = []
         let createdTopics = []
         data[0].questions.map((item, i) => {
@@ -43,6 +47,7 @@ const ExamForm = () => {
         data[0].topics.map((item, i) => {
             createdTopics.push(item.title)
         })
+
         axios.post(`/exam`, {
             name: data[0].name,
             description: data[0].description,
@@ -51,12 +56,22 @@ const ExamForm = () => {
             questions: [...createdQuestions]
         }).then(res => {
             console.log(res)
-        }).catch(err => console.log(err))
+            setIsLoading(false)
+            alert('Exam created successfully')
+            navigate('/dashboard')
+        }).catch(err => {
+            console.log(err)
+            setIsLoading(false)
+        })
     }
 
     return (
         <div className='bg-gray-100'>
-            <Navbar />
+            <Navbar
+                btnText='Logout'
+                path='/'
+                isLoading={isLoading}
+            />
             <div className='min-h-screen w-full flex flex-col items-center my-8'>
                 <div className='dashboard-width bg-white flex flex-col items-center justify-center py-16 my-4 rounded-md'>
                     <form className='flex flex-col gap-y-8 w-full px-16'>
