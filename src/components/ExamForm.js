@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import axios from 'axios';
+import '../axios';
 import QuestionForm from './QuestionForm';
 import Navbar from './Navbar'
 import TextField from '@mui/material/TextField';
@@ -11,7 +13,7 @@ const topicOptions = [
     { title: 'DBMS', id: 2 },
     { title: 'CN', id: 3 },
     { title: 'OS', id: 4 },
-    { title: 'C5', id: 1 },
+    { title: 'CD', id: 5 },
 ]
 
 const ExamForm = () => {
@@ -25,6 +27,33 @@ const ExamForm = () => {
         questions: []
     })
 
+    const [data, setData] = useState([])
+
+    const createQuestion = () => {
+        console.log(data)
+        let createdQuestions = []
+        let createdTopics = []
+        data[0].questions.map((item, i) => {
+            createdQuestions.push({
+                question: item.question,
+                options: [item.option1, item.option2, item.option3, item.option4],
+                answer: item.answer.value
+            })
+        })
+        data[0].topics.map((item, i) => {
+            createdTopics.push(item.title)
+        })
+        axios.post(`/exam`, {
+            name: data[0].name,
+            description: data[0].description,
+            duration: data[0].duration,
+            topics: [...createdTopics],
+            questions: [...createdQuestions]
+        }).then(res => {
+            console.log(res)
+        }).catch(err => console.log(err))
+    }
+
     return (
         <div className='bg-gray-100'>
             <Navbar />
@@ -35,7 +64,7 @@ const ExamForm = () => {
                         {step === 0 &&
                             <div>
                                 <div className='' style={{ margin: '0 20%' }}>
-                                    <TextField type={'text'} fullWidth id="outlined-basic" label="Name" variant="standard" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
+                                    <TextField required type={'text'} fullWidth id="outlined-basic" label="Name" variant="standard" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
                                     <TextField
                                         id="standard-multiline-static"
                                         label="Description"
@@ -46,13 +75,16 @@ const ExamForm = () => {
                                         onChange={e => setInput({ ...input, description: e.target.value })}
                                         fullWidth
                                     />
-                                    <TextField type={'number'} fullWidth id="outlined-basic" label="Duration (minutes)" variant="standard" size='small' value={input.duration} onChange={e => setInput({ ...input, duration: e.target.value })} />
+                                    <TextField required type={'number'} fullWidth id="outlined-basic" label="Duration (minutes)" variant="standard" size='small' value={input.duration} onChange={e => setInput({ ...input, duration: e.target.value })} />
                                     <Autocomplete
                                         multiple
+                                        required
                                         id="tags-standard"
                                         options={topicOptions}
                                         getOptionLabel={(option) => option.title}
                                         defaultValue={[]}
+                                        value={input.topics}
+                                        onChange={(e, value) => setInput({ ...input, topics: value })}
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
@@ -63,13 +95,23 @@ const ExamForm = () => {
                                         )}
                                     />
                                 </div>
-                                <Button variant="contained" size='small' endIcon={<ArrowForwardIcon />} className='float-right relative top-2' onClick={() => setStep(step + 1)}>
+                                <Button variant="contained" size='small' endIcon={<ArrowForwardIcon />} className='float-right relative top-2'
+                                    onClick={() => {
+                                        setData([{ ...input }])
+                                        setStep(step + 1);
+                                    }}>
                                     Next
                                 </Button>
                             </div>
                         }
                         {step === 1 &&
-                            <QuestionForm input={input} setInput={setInput} index={0} step={step} setStep={setStep} />
+                            <>
+                                {data.map((saved, index) => {
+                                    return (
+                                        <QuestionForm key={index} data={data} setData={setData} index={0} step={step} setStep={setStep} saved={saved} createQuestion={createQuestion} />
+                                    )
+                                })}
+                            </>
                         }
                     </form>
                 </div>
