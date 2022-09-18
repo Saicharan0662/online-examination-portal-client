@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import QuestionForm from './QuestionForm';
@@ -20,6 +20,7 @@ const topicOptions = [
 const ExamForm = () => {
 
     const navigate = useNavigate();
+    const { examID } = useParams();
     const [step, setStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false)
     const [input, setInput] = useState({
@@ -32,7 +33,48 @@ const ExamForm = () => {
 
     const [data, setData] = useState([])
 
-    const createQuestion = () => {
+    const getTopics = topics => {
+        let res = [];
+        topics.forEach(topic => {
+            let _id = 1;
+            if (topic === 'DBMS') _id = 2;
+            else if (topic === 'CN') _id = 3;
+            else if (topic === 'OS') _id = 4;
+            else if (topic === 'CD') _id = 5;
+            res.push({ title: topic, id: _id })
+        })
+        return res
+    }
+
+    useEffect(() => {
+        console.log(examID)
+        if (!examID) return;
+        setIsLoading(true)
+        axios.get(`/exam/${examID}`)
+            .then(res => {
+                let data = res.data.exam;
+                let newData = [...data]
+                newData[0].questions = data[0].questions.map((item, index) => {
+                    return { question: item.question, option1: item.options[0], option2: item.options[1], option3: item.options[2], option4: item.options[3], answer: { value: item.answer, id: index } }
+                })
+                setData(data)
+                setInput({
+                    name: res.data.exam[0].name,
+                    description: res.data.exam[0].description,
+                    duration: res.data.exam[0].duration,
+                    topics: getTopics(res.data.exam[0].topics),
+                    questions: res.data.exam[0].questions
+                })
+                setIsLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setIsLoading(false)
+            })
+    }, [])
+
+
+    const createExam = () => {
         // console.log(data)
         setIsLoading(true)
         let createdQuestions = []
@@ -123,7 +165,7 @@ const ExamForm = () => {
                             <>
                                 {data.map((saved, index) => {
                                     return (
-                                        <QuestionForm key={index} data={data} setData={setData} index={0} step={step} setStep={setStep} saved={saved} createQuestion={createQuestion} />
+                                        <QuestionForm key={index} data={data} setData={setData} index={0} step={step} setStep={setStep} saved={saved} createExam={createExam} />
                                     )
                                 })}
                             </>

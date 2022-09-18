@@ -6,13 +6,13 @@ import { ArrowBack } from '@mui/icons-material';
 import deleteIcon from '../asserts/icons/delete.png'
 
 const quizOptions = [
-    { id: 0, value: 'option 1' },
-    { id: 1, value: 'option 2' },
-    { id: 2, value: 'option 3' },
-    { id: 3, value: 'option 4' },
+    { id: '0', value: 'option 1' },
+    { id: '1', value: 'option 2' },
+    { id: '2', value: 'option 3' },
+    { id: '3', value: 'option 4' },
 ]
 
-const QuestionForm = ({ data, setData, index, step, setStep, saved = null, createQuestion }) => {
+const QuestionForm = ({ data, setData, index, step, setStep, saved = null, createExam }) => {
 
     const [question, setQuestion] = useState({
         question: '',
@@ -46,11 +46,37 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                                             onClick={() => deleteQuestion(i)}
                                         />
 
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`Question ${i + 1}`} variant="standard" size='small' value={item.question} disabled />
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 1`} variant="filled" size='small' value={item.option1} disabled />
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 2`} variant="filled" size='small' value={item.option2} disabled />
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 3`} variant="filled" size='small' value={item.option3} disabled />
-                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 4`} variant="filled" size='small' value={item.option4} disabled />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`Question ${i + 1}`} variant="filled" size='small' value={item.question}
+                                            onChange={e => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].question = e.target.value
+                                                setData(newData)
+                                            }} />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 1`} variant="filled" size='small' value={item.option1}
+                                            onChange={e => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].option1 = e.target.value
+                                                setData(newData)
+                                            }} />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 2`} variant="filled" size='small' value={item.option2}
+                                            onChange={e => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].option2 = e.target.value
+                                                setData(newData)
+                                            }}
+                                        />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 3`} variant="filled" size='small' value={item.option3}
+                                            onChange={e => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].option3 = e.target.value
+                                                setData(newData)
+                                            }} />
+                                        <TextField type={'text'} fullWidth id="outlined-basic" label={`option 4`} variant="filled" size='small' value={item.option4}
+                                            onChange={e => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].option4 = e.target.value
+                                                setData(newData)
+                                            }} />
                                         <Autocomplete
                                             id="tags-standard"
                                             fullWidth
@@ -58,7 +84,11 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                                             getOptionLabel={(option) => option.value}
                                             defaultValue={[]}
                                             value={item.answer}
-                                            disabled
+                                            onChange={(event, newValue) => {
+                                                let newData = [...data]
+                                                newData[0].questions[i].answer = newValue
+                                                setData(newData)
+                                            }}
                                             renderInput={(params) => (
                                                 <TextField
                                                     {...params}
@@ -131,7 +161,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                 //     option4: '',
                 //     answer: { id: 1, value: 'option 2' }
                 // })
-                createQuestion()
+                createExam()
             }}>
                 Submit
             </Button>

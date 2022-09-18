@@ -20,6 +20,7 @@ function App() {
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
           <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />
           <Route exact path='/create-exam' element={<ExamForm />} />
+          <Route exact path='/edit-exam/:examID' element={<ExamForm />} />
         </Routes>
       </Router>
     </div>

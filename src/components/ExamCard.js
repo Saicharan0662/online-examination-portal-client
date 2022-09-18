@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 import axios from 'axios'
 import '../axios'
 import Tags from './Tags'
@@ -8,6 +9,7 @@ import editIcon from '../asserts/icons/edit.png'
 
 const ExamCard = ({ exam, setIsLoading, getExams }) => {
 
+    const navigate = useNavigate();
     const deleteExam = (examID) => {
         setIsLoading(true)
         axios.delete(`/exam/${examID}`)
@@ -40,6 +42,7 @@ const ExamCard = ({ exam, setIsLoading, getExams }) => {
                     onClick={() => deleteExam(exam._id)}
                 />
                 <img src={editIcon} alt="edit" className='h-5 absolute top-3 right-10 cursor-pointer'
+                    onClick={() => navigate(`/edit-exam/${exam._id}`)}
                 />
             </div>
             <span className='rounded-md px-2 py-1 bg-green-100 text-green-500 text-xs absolute bottom-3 right-2 border-2 border-green-300'>
