@@ -73,6 +73,38 @@ const ExamForm = () => {
             })
     }, [])
 
+    const updateExam = () => {
+        setIsLoading(true)
+        let createdQuestions = []
+        let createdTopics = []
+        data[0].questions.map((item, i) => (
+            createdQuestions.push({
+                question: item.question,
+                options: [item.option1, item.option2, item.option3, item.option4],
+                answer: item.answer.value
+            })
+        ))
+        data[0].topics.map((item, i) => (
+            createdTopics.push(item.title)
+        ))
+
+        axios.patch(`/exam/${examID}`, {
+            name: data[0].name,
+            description: data[0].description,
+            duration: data[0].duration,
+            topics: [...createdTopics],
+            questions: [...createdQuestions]
+        }).then(res => {
+            console.log(res)
+            setIsLoading(false)
+            alert('Exam updated successfully')
+            navigate('/dashboard')
+        }).catch(err => {
+            console.log(err)
+            setIsLoading(false)
+        })
+    }
+
 
     const createExam = () => {
         // console.log(data)
@@ -165,7 +197,7 @@ const ExamForm = () => {
                             <>
                                 {data.map((saved, index) => {
                                     return (
-                                        <QuestionForm key={index} data={data} setData={setData} index={0} step={step} setStep={setStep} saved={saved} createExam={createExam} />
+                                        <QuestionForm key={index} data={data} setData={setData} index={0} step={step} setStep={setStep} saved={saved} createExam={createExam} updateExam={updateExam} examID={examID} />
                                     )
                                 })}
                             </>

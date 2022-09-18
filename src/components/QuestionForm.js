@@ -12,7 +12,7 @@ const quizOptions = [
     { id: '3', value: 'option 4' },
 ]
 
-const QuestionForm = ({ data, setData, index, step, setStep, saved = null, createExam }) => {
+const QuestionForm = ({ data, setData, index, step, setStep, saved = null, createExam, updateExam, examID = null }) => {
 
     const [question, setQuestion] = useState({
         question: '',
@@ -150,18 +150,8 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                     alert('Please save the question first')
                     return;
                 }
-                // let newInput = [...data];
-                // newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
-                // setData(newInput);
-                // setQuestion({
-                //     question: '',
-                //     option1: '',
-                //     option2: '',
-                //     option3: '',
-                //     option4: '',
-                //     answer: { id: 1, value: 'option 2' }
-                // })
-                createExam()
+                if (examID) updateExam();
+                else createExam()
             }}>
                 Submit
             </Button>
