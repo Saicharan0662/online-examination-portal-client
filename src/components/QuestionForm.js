@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { ArrowBack } from '@mui/icons-material';
+import deleteIcon from '../asserts/icons/delete.png'
 
 const quizOptions = [
     { id: 0, value: 'option 1' },
@@ -22,15 +23,29 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         answer: { id: 1, value: 'option 2' },
     })
 
+    const deleteQuestion = (index) => {
+        let newData = [...data]
+        newData[0].questions = newData[0].questions.filter((item, i) => i !== index)
+        setData(newData)
+    }
+
     return (
         <div>
             <div className='flex flex-col items-center gap-y-2' style={{ margin: '0 20%' }}>
                 {saved && saved.questions && saved.questions.length > 0 &&
-                    <div>
+                    <div className=''>
                         {
                             saved.questions.map((item, i) => {
                                 return (
-                                    <>
+                                    <div className='relative w-full mb-4'>
+                                        <img
+                                            src={deleteIcon}
+                                            alt="delete"
+                                            className='h-6 absolute top-3 right-0 cursor-pointer'
+                                            style={{ zIndex: 2 }}
+                                            onClick={() => deleteQuestion(i)}
+                                        />
+
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`Question ${i + 1}`} variant="standard" size='small' value={item.question} disabled />
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`option 1`} variant="filled" size='small' value={item.option1} disabled />
                                         <TextField type={'text'} fullWidth id="outlined-basic" label={`option 2`} variant="filled" size='small' value={item.option2} disabled />
@@ -53,7 +68,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                                                 />
                                             )}
                                         />
-                                    </>
+                                    </div>
                                 )
                             })}
                     </div>}
@@ -94,28 +109,28 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                             option4: '',
                             answer: { id: 1, value: 'option 2' }
                         })
-                    }}>+ Add more</Button>
+                    }}>+ Add more | save</Button>
                 </div>
             </div>
             <Button variant="contained" size='small' startIcon={<ArrowBack />} className='float-left relative top-2' onClick={() => setStep(step - 1)}>
                 Previous
             </Button>
             <Button variant="contained" size='small' color='success' className='float-right relative top-2' onClick={() => {
-                if (!question.question || !question.option1 || !question.option2 || !question.option3 || !question.option4 || !question.answer) {
-                    alert('Please fill all the fields')
+                if (question.question) {
+                    alert('Please save the question first')
                     return;
                 }
-                let newInput = [...data];
-                newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
-                setData(newInput);
-                setQuestion({
-                    question: '',
-                    option1: '',
-                    option2: '',
-                    option3: '',
-                    option4: '',
-                    answer: { id: 1, value: 'option 2' }
-                })
+                // let newInput = [...data];
+                // newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
+                // setData(newInput);
+                // setQuestion({
+                //     question: '',
+                //     option1: '',
+                //     option2: '',
+                //     option3: '',
+                //     option4: '',
+                //     answer: { id: 1, value: 'option 2' }
+                // })
                 createQuestion()
             }}>
                 Submit
