@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import ExamCard from '../components/ExamCard';
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -19,7 +20,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
                 setIsLoading(false)
             })
             .catch(err => {
-                console.log(err)
+                toast.error(err.response.data.msg)
                 setIsLoading(false)
             })
     }
@@ -31,6 +32,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     return (
         <div className='min-h-screen w-full flex flex-col items-center bg-gray-100'>
+            <Toaster />
             <div className='dashboard-width' >
                 <div className='h-40 flex items-end px-8 py-2 bg-blue-pattern rounded-b-md'>
                     <h1 className='text-xl font-bold'>Welcome back {user.name}!!</h1>

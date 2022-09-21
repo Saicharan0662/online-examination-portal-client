@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import '../axios';
+import toast, { Toaster } from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router'
 
 const ActivateAccount = () => {
@@ -14,12 +15,11 @@ const ActivateAccount = () => {
             clientToken: token,
             userType
         }).then(res => {
-            console.log(res.data)
+            toast.success(res.data.msg)
             setIsLoading(false)
-            alert(res.data)
             navigate('/login')
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
     }
@@ -30,7 +30,10 @@ const ActivateAccount = () => {
 
 
     return (
-        <div className='min-h-screen justify-center items-center'>{isLoading ? "Loading..." : "Done"}</div>
+        <>
+            <Toaster />
+            <div className='min-h-screen justify-center items-center'>{isLoading ? "Loading..." : "Done"}</div>
+        </>
     )
 }
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../axios';
 import QuestionForm from './QuestionForm';
 import Navbar from './Navbar'
+import toast, { Toaster } from 'react-hot-toast';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -47,7 +48,6 @@ const ExamForm = () => {
     }
 
     useEffect(() => {
-        console.log(examID)
         if (!examID) return;
         setIsLoading(true)
         axios.get(`/exam/${examID}`)
@@ -68,7 +68,7 @@ const ExamForm = () => {
                 setIsLoading(false)
             })
             .catch(err => {
-                console.log(err)
+                toast.error(err.response.data.msg)
                 setIsLoading(false)
             })
     }, [])
@@ -97,10 +97,10 @@ const ExamForm = () => {
         }).then(res => {
             console.log(res)
             setIsLoading(false)
-            alert('Exam updated successfully')
+            toast.success('Exam updated successfully')
             navigate('/dashboard')
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
     }
@@ -129,18 +129,18 @@ const ExamForm = () => {
             topics: [...createdTopics],
             questions: [...createdQuestions]
         }).then(res => {
-            console.log(res)
             setIsLoading(false)
-            alert('Exam created successfully')
+            toast.success('Exam created successfully')
             navigate('/dashboard')
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
     }
 
     return (
         <div className='bg-gray-100'>
+            <Toaster />
             <Navbar
                 btnText='Logout'
                 path='/'

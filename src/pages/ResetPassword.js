@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import axios from 'axios';
 import '../axios';
 import Navbar from '../components/Navbar';
+import toast, { Toaster } from 'react-hot-toast';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -18,7 +19,7 @@ const ResetPassword = () => {
     const resetPassword = (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            alert('Password does not match')
+            toast.error('Passwords do not match')
             return;
         }
         setIsLoading(true)
@@ -27,12 +28,11 @@ const ResetPassword = () => {
             clientToken: token,
             userType
         }).then(res => {
-            console.log(res.data.msg)
+            toast.success('Password reset success')
             setIsLoading(false)
-            alert(res.data.msg)
             navigate('/login')
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
 
@@ -42,6 +42,7 @@ const ResetPassword = () => {
 
     return (
         <div>
+            <Toaster />
             <Navbar
                 showBtn={false}
                 isLoading={isLoading}

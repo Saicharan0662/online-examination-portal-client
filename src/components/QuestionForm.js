@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -31,6 +32,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
 
     return (
         <div>
+            <Toaster />
             <div className='flex flex-col items-center gap-y-2' style={{ margin: '0 20%' }}>
                 {saved && saved.questions && saved.questions.length > 0 &&
                     <div className=''>
@@ -147,7 +149,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             </Button>
             <Button variant="contained" size='small' color='success' className='float-right relative top-2' onClick={() => {
                 if (question.question) {
-                    alert('Please save the question first')
+                    toast.error('Please save the question first')
                     return;
                 }
                 if (examID) updateExam();

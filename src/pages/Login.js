@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import '../axios';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import toast, { Toaster } from 'react-hot-toast';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button } from '@mui/material';
@@ -16,7 +17,7 @@ const Login = () => {
     const login = e => {
         e.preventDefault();
         if (!input.email || !input.password) {
-            alert('Please fill all the fields');
+            toast.error('Please fill all the fields');
             return;
         }
         setIsLoading(true)
@@ -25,9 +26,10 @@ const Login = () => {
         }).then(res => {
             localStorage.setItem('userData', JSON.stringify(res.data))
             setIsLoading(false)
+            toast.success('Login success')
             navigate('/dashboard')
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
 
@@ -41,7 +43,7 @@ const Login = () => {
     const getResetLink = e => {
         e.preventDefault();
         if (!input.email) {
-            alert('Please enter email');
+            toast.error('Please enter email');
             return;
         }
         setIsLoading(true)
@@ -49,11 +51,10 @@ const Login = () => {
             email: input.email,
             userType: input.userType
         }).then(res => {
-            console.log(res);
-            alert(res.data.msg)
+            toast.success(res.data.msg)
             setIsLoading(false)
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
 
@@ -61,6 +62,7 @@ const Login = () => {
 
     return (
         <div className=''>
+            <Toaster />
             <Navbar
                 btnText='Register'
                 path='/signup'

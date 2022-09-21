@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import '../axios'
 import Tags from './Tags'
+import toast, { Toaster } from 'react-hot-toast';
 import deleteIcon from '../asserts/icons/deleteIcon.png'
 import editIcon from '../asserts/icons/edit.png'
 
@@ -14,18 +15,19 @@ const ExamCard = ({ exam, setIsLoading, getExams }) => {
         setIsLoading(true)
         axios.delete(`/exam/${examID}`)
             .then(res => {
-                console.log(res)
+                toast.success('Exam deleted successfully')
                 getExams()
                 setIsLoading(false)
             })
             .catch(err => {
-                console.log(err)
+                toast.error(err.response.data.msg)
                 setIsLoading(false)
             })
     }
 
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
+            <Toaster />
             <h1 className='text-lg font-semibold truncate ' style={{ width: '85%' }}>{exam.name.toUpperCase()}</h1>
             <p className='font-normal font-tiny -mt-1 mb-2'>{exam.description}</p>
             <div>

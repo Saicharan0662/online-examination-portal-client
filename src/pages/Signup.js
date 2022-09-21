@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import '../axios';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import toast, { Toaster } from 'react-hot-toast';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button } from '@mui/material';
@@ -17,10 +18,11 @@ const Signup = () => {
         axios.post(`/auth/register`, {
             ...input
         }).then(res => {
-            console.log(res)
+            toast.success('Registeration Success')
+            toast('Please confirm your email')
             setIsLoading(false)
         }).catch(err => {
-            console.log(err)
+            toast.error(err.response.data.msg)
             setIsLoading(false)
         })
         setInput({
@@ -33,6 +35,7 @@ const Signup = () => {
 
     return (
         <div className=''>
+            <Toaster />
             <Navbar
                 btnText='Login'
                 path='/login'
