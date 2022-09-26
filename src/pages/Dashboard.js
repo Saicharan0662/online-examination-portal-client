@@ -20,7 +20,7 @@ const Dashboard = () => {
                 isLoading={isLoading}
             />
             {user?.userType === 'examiner' ? <ExaminerDashBoard user={user} setIsLoading={setIsLoading} isLoading={isLoading} />
-                : <StudentDashBoard />}
+                : <StudentDashBoard user={user} setIsLoading={setIsLoading} isLoading={isLoading} />}
         </>
     )
 }
