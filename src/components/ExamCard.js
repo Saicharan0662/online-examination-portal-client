@@ -26,6 +26,20 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
             })
     }
 
+    const registerStudent = () => {
+        setIsLoading(true)
+        axios.post(`/exam/register-student/${exam._id}`)
+            .then(res => {
+                setIsLoading(false)
+                toast.success('Registered successfully')
+                getExams()
+            })
+            .catch(err => {
+                setIsLoading(false)
+                toast.error(err.response.data.msg)
+            })
+    }
+
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
             <Toaster />
@@ -42,7 +56,12 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
             </div>
             <div className=''>
                 {student ?
-                    <button className='student-exam-card-btn'>
+                    <button className='student-exam-card-btn' onClick={() => {
+                        if (exam.isRegistered) {
+                            // navigate(`/exam/${exam._id}`)
+                        }
+                        else registerStudent()
+                    }}>
                         {exam.isRegistered ? "Attempt Exam" : "Register"}
                     </button>
                     :
