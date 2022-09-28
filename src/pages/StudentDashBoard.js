@@ -14,7 +14,6 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
         setIsLoading(true)
         axios.get('/exam/get-exams/student')
             .then(res => {
-                console.log(res.data.exams)
                 setExams(res.data.exams)
                 setIsLoading(false)
             })

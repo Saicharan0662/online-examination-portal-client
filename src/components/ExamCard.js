@@ -4,7 +4,6 @@ import axios from 'axios'
 import '../axios'
 import Tags from './Tags'
 import toast, { Toaster } from 'react-hot-toast';
-import Button from '@mui/material/Button';
 import deleteIcon from '../asserts/icons/deleteIcon.png'
 import editIcon from '../asserts/icons/edit.png'
 
@@ -58,7 +57,7 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                 {student ?
                     <button className='student-exam-card-btn' onClick={() => {
                         if (exam.isRegistered) {
-                            // navigate(`/exam/${exam._id}`)
+                            navigate(`/exam/${exam._id}`)
                         }
                         else registerStudent()
                     }}>
