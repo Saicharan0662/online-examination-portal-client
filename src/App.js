@@ -8,6 +8,7 @@ import ResetPassword from './pages/ResetPassword';
 import ActivateAccount from './pages/ActivateAccount';
 import ExamForm from './components/ExamForm';
 import ExamPannel from './pages/ExamPannel';
+import ExamResult from './pages/ExamResult';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/create-exam' element={<ExamForm />} />
           <Route exact path='/edit-exam/:examID' element={<ExamForm />} />
           <Route exact path='/exam/:examID' element={<ExamPannel />} />
+          <Route exact path='/exam/result/:resultID' element={<ExamResult />} />
         </Routes>
       </Router>
     </div>

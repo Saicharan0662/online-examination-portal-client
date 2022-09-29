@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import '../axios';
@@ -7,6 +7,7 @@ import QuestionCard from '../components/QuestionCard';
 
 const ExamPannel = () => {
 
+    const navigate = useNavigate();
     const { examID } = useParams();
     const [exam, setExam] = useState([])
     const [response, setResponse] = useState([])
@@ -41,6 +42,7 @@ const ExamPannel = () => {
         })
             .then(res => {
                 console.log(res)
+                navigate(`/exam/result/${res.data.result._id}`)
             })
             .catch(err => {
                 console.log(err)
