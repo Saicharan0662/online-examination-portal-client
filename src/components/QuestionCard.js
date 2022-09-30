@@ -6,9 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import { Button } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
-const QuestionCard = ({ question, response, setResponse }) => {
-
-    const [currQuestion, setCurrQuestion] = useState(0);
+const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus }) => {
     // console.log(question);
 
     return (
@@ -30,6 +28,11 @@ const QuestionCard = ({ question, response, setResponse }) => {
                                     let temp = [...response];
                                     temp[currQuestion] = 'option 1';
                                     setResponse(temp);
+
+                                    let status = [...questionStatus]
+                                    if (status[currQuestion]) return;
+                                    status[currQuestion] = 'answered'
+                                    setQuestionStatus(status);
                                 }}
                             />
                             <FormControlLabel
@@ -41,6 +44,11 @@ const QuestionCard = ({ question, response, setResponse }) => {
                                     let temp = [...response];
                                     temp[currQuestion] = 'option 2';
                                     setResponse(temp);
+
+                                    let status = [...questionStatus]
+                                    if (status[currQuestion]) return;
+                                    status[currQuestion] = 'answered'
+                                    setQuestionStatus(status);
                                 }}
                             />
                             <FormControlLabel
@@ -52,6 +60,11 @@ const QuestionCard = ({ question, response, setResponse }) => {
                                     let temp = [...response];
                                     temp[currQuestion] = 'option 3';
                                     setResponse(temp);
+
+                                    let status = [...questionStatus]
+                                    if (status[currQuestion]) return;
+                                    status[currQuestion] = 'answered'
+                                    setQuestionStatus(status);
                                 }}
                             />
                             <FormControlLabel
@@ -63,6 +76,11 @@ const QuestionCard = ({ question, response, setResponse }) => {
                                     let temp = [...response];
                                     temp[currQuestion] = 'option 4';
                                     setResponse(temp);
+
+                                    let status = [...questionStatus]
+                                    if (status[currQuestion]) return;
+                                    status[currQuestion] = 'answered'
+                                    setQuestionStatus(status);
                                 }}
                             />
                         </RadioGroup>
@@ -84,7 +102,12 @@ const QuestionCard = ({ question, response, setResponse }) => {
                     size='small'
                     endIcon={<ArrowForward />}
                     disabled={currQuestion === question.length - 1}
-                    onClick={() => setCurrQuestion(currQuestion + 1)}
+                    onClick={() => {
+                        // let temp = [...questionStatus];
+                        // temp[currQuestion + 1] = "visited";
+                        // setQuestionStatus(temp);
+                        setCurrQuestion(currQuestion + 1)
+                    }}
                 >
                     Next
                 </Button>

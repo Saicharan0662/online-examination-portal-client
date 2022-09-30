@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 import '../axios';
 import QuestionCard from '../components/QuestionCard';
+import { Chip } from '@mui/material';
 
 const ExamPannel = () => {
 
@@ -11,11 +12,13 @@ const ExamPannel = () => {
     const { examID } = useParams();
     const [exam, setExam] = useState([])
     const [response, setResponse] = useState([])
+    const [currQuestion, setCurrQuestion] = useState(0);
+    const [questionStatus, setQuestionStatus] = useState([])
 
     useEffect(() => {
         axios.get(`/exam/get-exam-data/${examID}`)
             .then(res => {
-                console.log(res.data.exam[0])
+                // console.log(res.data.exam[0])
                 setExam(res.data.exam[0])
             })
             .catch(err => {
@@ -59,11 +62,39 @@ const ExamPannel = () => {
                 <Button variant='contained' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
             </div>
             <div className='min-h-screen w-1/4 absolute left-0 pt-16 px-2 bg-gray-200'>
-                <h2>Questions</h2>
-
+                <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
+                <div>
+                    {exam.questions && exam.questions.map((item, index) => {
+                        return (
+                            <Chip
+                                label={index + 1}
+                                color={questionStatus[index] ?
+                                    (questionStatus[index] === 'answered' ? 'success' : 'secondary')
+                                    : 'primary'}
+                                style={{ cursor: 'pointer', margin: '7px', width: '50px', aspectRatio: '1' }}
+                                clickable
+                                onClick={() => {
+                                    // let temp = [...questionStatus];
+                                    // temp[currQuestion] = "visited";
+                                    // setQuestionStatus(temp);
+                                    setCurrQuestion(index)
+                                }}
+                            />
+                        )
+                    })}
+                </div>
             </div>
             <div className='min-h-screen w-3/4 absolute right-0 top-16'>
-                {exam.questions && <QuestionCard question={exam.questions} response={response} setResponse={setResponse} />}
+                {exam.questions &&
+                    <QuestionCard
+                        question={exam.questions}
+                        response={response}
+                        setResponse={setResponse}
+                        setCurrQuestion={setCurrQuestion}
+                        currQuestion={currQuestion}
+                        setQuestionStatus={setQuestionStatus}
+                        questionStatus={questionStatus}
+                    />}
             </div>
         </div>
     )
