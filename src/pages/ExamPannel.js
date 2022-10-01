@@ -94,6 +94,7 @@ const ExamPannel = () => {
                         currQuestion={currQuestion}
                         setQuestionStatus={setQuestionStatus}
                         questionStatus={questionStatus}
+                        handleSubmit={handleSubmit}
                     />}
             </div>
         </div>
