@@ -36,7 +36,7 @@ const ExamPannel = () => {
             let temp = {};
             temp.question = exam.questions[i].question;
             temp.questionID = exam.questions[i]._id;
-            temp.givenAnswer = response[i];
+            temp.givenAnswer = response[i] ? response[i] : null;
             object.response.push(temp);
         }
 
@@ -59,7 +59,7 @@ const ExamPannel = () => {
                 <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
                     <p className='relative top-2'>{exam.duration}</p>
                 </span>
-                <Button variant='contained' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
+                <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
             </div>
             <div className='min-h-screen w-1/4 absolute left-0 pt-16 px-2 bg-gray-200'>
                 <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>

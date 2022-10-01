@@ -26,11 +26,19 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                                 label={question[currQuestion].options[0]}
                                 onClick={() => {
                                     let temp = [...response];
+                                    if (temp[currQuestion] === 'option 1') {
+                                        temp[currQuestion] = null;
+                                        setResponse(temp)
+
+                                        let status = [...questionStatus]
+                                        status[currQuestion] = null
+                                        setQuestionStatus(status);
+                                        return;
+                                    }
                                     temp[currQuestion] = 'option 1';
                                     setResponse(temp);
 
                                     let status = [...questionStatus]
-                                    if (status[currQuestion]) return;
                                     status[currQuestion] = 'answered'
                                     setQuestionStatus(status);
                                 }}
@@ -46,7 +54,6 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                                     setResponse(temp);
 
                                     let status = [...questionStatus]
-                                    if (status[currQuestion]) return;
                                     status[currQuestion] = 'answered'
                                     setQuestionStatus(status);
                                 }}
@@ -62,7 +69,6 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                                     setResponse(temp);
 
                                     let status = [...questionStatus]
-                                    if (status[currQuestion]) return;
                                     status[currQuestion] = 'answered'
                                     setQuestionStatus(status);
                                 }}
@@ -78,7 +84,6 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                                     setResponse(temp);
 
                                     let status = [...questionStatus]
-                                    if (status[currQuestion]) return;
                                     status[currQuestion] = 'answered'
                                     setQuestionStatus(status);
                                 }}
@@ -97,20 +102,45 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                 >
                     Previous
                 </Button>
-                <Button
-                    variant='contained'
-                    size='small'
-                    endIcon={<ArrowForward />}
-                    disabled={currQuestion === question.length - 1}
-                    onClick={() => {
-                        // let temp = [...questionStatus];
-                        // temp[currQuestion + 1] = "visited";
-                        // setQuestionStatus(temp);
-                        setCurrQuestion(currQuestion + 1)
-                    }}
-                >
-                    Next
-                </Button>
+                {(currQuestion !== question.length - 1) ?
+                    <div>
+                        <Button
+                            variant='contained'
+                            size='small'
+                            color='secondary'
+                            endIcon={<ArrowForward />}
+                            onClick={() => {
+                                let status = [...questionStatus]
+                                status[currQuestion] = 'flagged'
+                                setQuestionStatus(status);
+                                setCurrQuestion(currQuestion + 1)
+                            }}
+                            style={{ marginRight: '10px' }}
+                        >
+                            Flag
+                        </Button>
+                        <Button
+                            variant='contained'
+                            size='small'
+                            endIcon={<ArrowForward />}
+                            onClick={() => {
+                                setCurrQuestion(currQuestion + 1)
+                            }}
+                        >
+                            Next
+                        </Button>
+                    </div> :
+                    <Button
+                        variant='contained'
+                        size='small'
+                        color='success'
+                        // endIcon={<ArrowForward />}
+                        onClick={() => {
+
+                        }}
+                    >
+                        Submit
+                    </Button>}
             </div>
         </div >
     )

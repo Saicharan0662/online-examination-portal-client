@@ -94,32 +94,35 @@ const ExamResult = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {result.examDetails[0].questions.map((row, index) => (
-                                            <TableRow
-                                                key={index}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                style={{ backgroundColor: row.answer === result.response[index].givenAnswer ? 'lightgreen' : '#ffcccb' }}
-                                            >
-                                                <TableCell component="th" scope="row">
-                                                    {index + 1}
-                                                </TableCell>
-                                                <TableCell component="th" scope="row">
-                                                    {row.question}
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    {row.answer.includes('1') && row.options[0]}
-                                                    {row.answer.includes('2') && row.options[1]}
-                                                    {row.answer.includes('3') && row.options[2]}
-                                                    {row.answer.includes('4') && row.options[3]}
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    {result.response[index].givenAnswer.includes('1') && row.options[0]}
-                                                    {result.response[index].givenAnswer.includes('2') && row.options[1]}
-                                                    {result.response[index].givenAnswer.includes('3') && row.options[2]}
-                                                    {result.response[index].givenAnswer.includes('4') && row.options[3]}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
+                                        {result.examDetails[0].questions.map((row, index) => {
+                                            console.log(row);
+                                            return (
+                                                <TableRow
+                                                    key={index}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    style={{ backgroundColor: row.answer === (result.response[index] && result.response[index].givenAnswer) ? 'lightgreen' : '#ffcccb' }}
+                                                >
+                                                    <TableCell component="th" scope="row">
+                                                        {index + 1}
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row">
+                                                        {row.question}
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        {row.answer?.includes('1') && row.options[0]}
+                                                        {row.answer?.includes('2') && row.options[1]}
+                                                        {row.answer?.includes('3') && row.options[2]}
+                                                        {row.answer?.includes('4') && row.options[3]}
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('2') && row.options[1]}
+                                                        {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('3') && row.options[2]}
+                                                        {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('4') && row.options[3]}
+                                                        {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('1') && row.options[0]}
+                                                        {result.response[index].givenAnswer === null && 'Not Answered'}
+                                                    </TableCell>
+                                                </TableRow>)
+                                        })}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
