@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import Button from '@mui/material/Button';
 import axios from 'axios';
 import '../axios';
 import QuestionCard from '../components/QuestionCard';
+import Button from '@mui/material/Button';
 import { Chip } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ExamPannel = () => {
 
@@ -14,15 +16,19 @@ const ExamPannel = () => {
     const [response, setResponse] = useState([])
     const [currQuestion, setCurrQuestion] = useState(0);
     const [questionStatus, setQuestionStatus] = useState([])
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
+        setOpen(true)
         axios.get(`/exam/get-exam-data/${examID}`)
             .then(res => {
                 // console.log(res.data.exam[0])
                 setExam(res.data.exam[0])
+                setOpen(false)
             })
             .catch(err => {
                 console.log(err)
+                setOpen(false)
             })
     }, [])
 
@@ -53,51 +59,59 @@ const ExamPannel = () => {
     }
 
     return (
-        <div className='min-h-screen w-full flex flex-col items-center'>
-            <div className='flex w-full justify-between items-center px-8 bg-gray-200 ' style={{ height: "50px" }}>
-                <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
-                <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
-                    <p className='relative top-2'>{exam.duration}</p>
-                </span>
-                <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
-            </div>
-            <div className='min-h-screen w-1/4 absolute left-0 pt-16 px-2 bg-gray-200'>
-                <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
-                <div>
-                    {exam.questions && exam.questions.map((item, index) => {
-                        return (
-                            <Chip
-                                label={index + 1}
-                                color={questionStatus[index] ?
-                                    (questionStatus[index] === 'answered' ? 'success' : 'secondary')
-                                    : 'primary'}
-                                style={{ cursor: 'pointer', margin: '7px', width: '50px', aspectRatio: '1' }}
-                                clickable
-                                onClick={() => {
-                                    // let temp = [...questionStatus];
-                                    // temp[currQuestion] = "visited";
-                                    // setQuestionStatus(temp);
-                                    setCurrQuestion(index)
-                                }}
-                            />
-                        )
-                    })}
+        <>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={open}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <div className='min-h-screen w-full flex flex-col items-center'>
+                <div className='flex w-full justify-between items-center px-8 bg-gray-200 ' style={{ height: "50px" }}>
+                    <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
+                    <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
+                        <p className='relative top-2'>{exam.duration}</p>
+                    </span>
+                    <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
+                </div>
+                <div className='min-h-screen w-1/4 absolute left-0 pt-16 px-2 bg-gray-200'>
+                    <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
+                    <div>
+                        {exam.questions && exam.questions.map((item, index) => {
+                            return (
+                                <Chip
+                                    label={index + 1}
+                                    color={questionStatus[index] ?
+                                        (questionStatus[index] === 'answered' ? 'success' : 'secondary')
+                                        : 'primary'}
+                                    style={{ cursor: 'pointer', margin: '7px', width: '50px', aspectRatio: '1' }}
+                                    clickable
+                                    onClick={() => {
+                                        // let temp = [...questionStatus];
+                                        // temp[currQuestion] = "visited";
+                                        // setQuestionStatus(temp);
+                                        setCurrQuestion(index)
+                                    }}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className='min-h-screen w-3/4 absolute right-0 top-16'>
+                    {exam.questions &&
+                        <QuestionCard
+                            question={exam.questions}
+                            response={response}
+                            setResponse={setResponse}
+                            setCurrQuestion={setCurrQuestion}
+                            currQuestion={currQuestion}
+                            setQuestionStatus={setQuestionStatus}
+                            questionStatus={questionStatus}
+                            handleSubmit={handleSubmit}
+                        />}
                 </div>
             </div>
-            <div className='min-h-screen w-3/4 absolute right-0 top-16'>
-                {exam.questions &&
-                    <QuestionCard
-                        question={exam.questions}
-                        response={response}
-                        setResponse={setResponse}
-                        setCurrQuestion={setCurrQuestion}
-                        currQuestion={currQuestion}
-                        setQuestionStatus={setQuestionStatus}
-                        questionStatus={questionStatus}
-                        handleSubmit={handleSubmit}
-                    />}
-            </div>
-        </div>
+        </>
     )
 }
 
