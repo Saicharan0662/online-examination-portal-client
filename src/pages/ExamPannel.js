@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 import axios from 'axios';
 import '../axios';
 import QuestionCard from '../components/QuestionCard';
+import CountDownTimer from '../components/CountDownTimer';
 import Button from '@mui/material/Button';
 import { Chip } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
@@ -62,7 +63,9 @@ const ExamPannel = () => {
                 <div className='flex w-full justify-between items-center px-8 bg-gray-200 ' style={{ height: "50px" }}>
                     <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
                     <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
-                        <p className='relative top-2'>{exam.duration}</p>
+                        <p className='relative top-2'>
+                            {exam && <CountDownTimer minutes={exam.duration} handleSubmit={console.log} />}
+                        </p>
                     </span>
                     <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => setOpen(true)}>Submit</Button>
                 </div>
