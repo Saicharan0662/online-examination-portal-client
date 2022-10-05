@@ -32,7 +32,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
             response: { ...object }
         })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 navigate(`/exam/result/${res.data.result._id}`)
             })
             .catch(err => {

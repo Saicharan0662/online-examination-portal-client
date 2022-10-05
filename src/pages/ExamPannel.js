@@ -23,7 +23,9 @@ const ExamPannel = () => {
         setLoading(true)
         axios.get(`/exam/get-exam-data/${examID}`)
             .then(res => {
-                console.log(res.data.exam[0])
+                // console.log(res.data.exam[0])
+                const initialResponse = new Array(res.data.exam[0].questions.length).fill(null)
+                setResponse(initialResponse)
                 setExam(res.data.exam[0])
                 setLoading(false)
             })

@@ -19,7 +19,7 @@ const ExamResult = () => {
     useEffect(() => {
         axios.get(`/result/${resultID}`)
             .then(res => {
-                console.log(res.data.result[0]);
+                // console.log(res.data.result[0]);
                 setResult(res.data.result[0]);
             })
             .catch(err => {
@@ -95,7 +95,6 @@ const ExamResult = () => {
                                     </TableHead>
                                     <TableBody>
                                         {result.examDetails[0].questions.map((row, index) => {
-                                            console.log(row);
                                             return (
                                                 <TableRow
                                                     key={index}

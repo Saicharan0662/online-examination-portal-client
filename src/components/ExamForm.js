@@ -95,7 +95,7 @@ const ExamForm = () => {
             topics: [...createdTopics],
             questions: [...createdQuestions]
         }).then(res => {
-            console.log(res)
+            // console.log(res)
             setIsLoading(false)
             toast.success('Exam updated successfully')
             navigate('/dashboard')
