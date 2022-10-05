@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import { Button } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
-const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus, handleSubmit }) => {
+const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus, handleSubmit, counts }) => {
     // console.log(question);
     const [open, setOpen] = useState(false)
 
@@ -19,6 +19,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                 handleSubmit={handleSubmit}
                 title={"Are you sure you want to submit?"}
                 description="You will not be able to change your response after submitting. However, you can submit multiple times."
+                counts={counts}
             />
             <div className=' my-4 px-8 py-4 rounded-md' style={{ background: '	#FAF9F6' }}>
                 <h3>{currQuestion + 1}. {question[currQuestion]?.question}</h3>

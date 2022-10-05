@@ -17,12 +17,13 @@ const ExamPannel = () => {
     const [currQuestion, setCurrQuestion] = useState(0);
     const [questionStatus, setQuestionStatus] = useState([])
     const [open, setOpen] = useState(false)
+    const [counts, setCounts] = useState({ answered: 0, flagged: 0, rest: 0 })
 
     useEffect(() => {
         setOpen(true)
         axios.get(`/exam/get-exam-data/${examID}`)
             .then(res => {
-                // console.log(res.data.exam[0])
+                console.log(res.data.exam[0])
                 setExam(res.data.exam[0])
                 setOpen(false)
             })
@@ -30,7 +31,25 @@ const ExamPannel = () => {
                 console.log(err)
                 setOpen(false)
             })
+
+
     }, [])
+
+    useEffect(() => {
+
+        if (!exam || !exam.questions) return;
+
+        let c1 = 0, c2 = 0;
+        const items = [...questionStatus]
+        for (const item of items) {
+            if (item === 'answered') c1++;
+            else c2++;
+        }
+
+        setCounts({ answered: c1, flagged: c2, rest: exam.questions.length - c1 - c2 })
+
+    }, [questionStatus])
+
 
     const handleSubmit = () => {
         let object = {};
@@ -74,41 +93,99 @@ const ExamPannel = () => {
                     </span>
                     <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
                 </div>
-                <div className='min-h-screen w-1/4 absolute left-0 pt-16 px-2 bg-gray-200'>
-                    <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
+                <div className=' w-1/4 absolute left-0 pt-16 px-2 bg-gray-200 flex flex-col justify-between' style={{ height: '99.7vh' }}>
                     <div>
-                        {exam.questions && exam.questions.map((item, index) => {
-                            return (
-                                <Chip
-                                    label={index + 1}
-                                    color={questionStatus[index] ?
-                                        (questionStatus[index] === 'answered' ? 'success' : 'secondary')
-                                        : 'primary'}
-                                    style={{ cursor: 'pointer', margin: '7px', width: '50px', aspectRatio: '1' }}
-                                    clickable
-                                    onClick={() => {
-                                        // let temp = [...questionStatus];
-                                        // temp[currQuestion] = "visited";
-                                        // setQuestionStatus(temp);
-                                        setCurrQuestion(index)
-                                    }}
-                                />
-                            )
-                        })}
+                        <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
+                        <div>
+                            {exam.questions && exam.questions.map((item, index) => {
+                                return (
+                                    <Chip
+                                        label={index + 1}
+                                        color={questionStatus[index] ?
+                                            (questionStatus[index] === 'answered' ? 'success' : 'secondary')
+                                            : 'primary'}
+                                        style={{ cursor: 'pointer', margin: '7px', width: '50px', aspectRatio: '1' }}
+                                        clickable
+                                        onClick={() => {
+                                            // let temp = [...questionStatus];
+                                            // temp[currQuestion] = "visited";
+                                            // setQuestionStatus(temp);
+                                            setCurrQuestion(index)
+                                        }}
+                                    />
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Instructions</h2>
+                        <div>
+                            <Chip
+                                label={'no.'}
+                                color='primary'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Not answered</span>
+                        </div>
+                        <div>
+                            <Chip
+                                label={'no.'}
+                                color='secondary'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Flagged</span>
+                        </div>
+                        <div>
+                            <Chip
+                                label={'no.'}
+                                color='success'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Answered</span>
+                        </div>
                     </div>
                 </div>
-                <div className='min-h-screen w-3/4 absolute right-0 top-16'>
-                    {exam.questions &&
-                        <QuestionCard
-                            question={exam.questions}
-                            response={response}
-                            setResponse={setResponse}
-                            setCurrQuestion={setCurrQuestion}
-                            currQuestion={currQuestion}
-                            setQuestionStatus={setQuestionStatus}
-                            questionStatus={questionStatus}
-                            handleSubmit={handleSubmit}
-                        />}
+                <div className=' w-3/4 absolute right-0 top-16 flex flex-col justify-between' style={{ height: '91vh' }}>
+                    <div>
+                        {exam.questions &&
+                            <QuestionCard
+                                question={exam.questions}
+                                response={response}
+                                setResponse={setResponse}
+                                setCurrQuestion={setCurrQuestion}
+                                currQuestion={currQuestion}
+                                setQuestionStatus={setQuestionStatus}
+                                questionStatus={questionStatus}
+                                handleSubmit={handleSubmit}
+                                counts={counts}
+                            />}
+                    </div>
+                    <div className='flex w-full justify-between px-2 bg-gray-200'>
+                        <div>
+                            <Chip
+                                label={counts.rest}
+                                color='primary'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Not answered</span>
+                        </div>
+                        <div>
+                            <Chip
+                                label={counts.answered}
+                                color='success'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Answered</span>
+                        </div>
+                        <div>
+                            <Chip
+                                label={counts.flagged}
+                                color='secondary'
+                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                            />
+                            <span>Flagged</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
