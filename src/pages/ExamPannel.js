@@ -10,29 +10,27 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const ExamPannel = () => {
 
-    const navigate = useNavigate();
     const { examID } = useParams();
     const [exam, setExam] = useState([])
     const [response, setResponse] = useState([])
     const [currQuestion, setCurrQuestion] = useState(0);
     const [questionStatus, setQuestionStatus] = useState([])
+    const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
     const [counts, setCounts] = useState({ answered: 0, flagged: 0, rest: 0 })
 
     useEffect(() => {
-        setOpen(true)
+        setLoading(true)
         axios.get(`/exam/get-exam-data/${examID}`)
             .then(res => {
                 console.log(res.data.exam[0])
                 setExam(res.data.exam[0])
-                setOpen(false)
+                setLoading(false)
             })
             .catch(err => {
                 console.log(err)
-                setOpen(false)
+                setLoading(false)
             })
-
-
     }, [])
 
     useEffect(() => {
@@ -50,38 +48,11 @@ const ExamPannel = () => {
 
     }, [questionStatus])
 
-
-    const handleSubmit = () => {
-        let object = {};
-        object.examID = examID;
-        object.studentID = JSON.parse(localStorage.getItem('userData')).user.userID;
-        object.score = 0;
-        object.response = [];
-        for (let i = 0; i < response.length; i++) {
-            let temp = {};
-            temp.question = exam.questions[i].question;
-            temp.questionID = exam.questions[i]._id;
-            temp.givenAnswer = response[i] ? response[i] : null;
-            object.response.push(temp);
-        }
-
-        axios.post(`/result/submit/${examID}`, {
-            response: { ...object }
-        })
-            .then(res => {
-                console.log(res)
-                navigate(`/exam/result/${res.data.result._id}`)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
     return (
         <>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={open}
+                open={loading}
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
@@ -91,7 +62,7 @@ const ExamPannel = () => {
                     <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
                         <p className='relative top-2'>{exam.duration}</p>
                     </span>
-                    <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => handleSubmit()}>Submit</Button>
+                    <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => setOpen(true)}>Submit</Button>
                 </div>
                 <div className=' w-1/4 absolute left-0 pt-16 px-2 bg-gray-200 flex flex-col justify-between' style={{ height: '99.7vh' }}>
                     <div>
@@ -156,8 +127,11 @@ const ExamPannel = () => {
                                 currQuestion={currQuestion}
                                 setQuestionStatus={setQuestionStatus}
                                 questionStatus={questionStatus}
-                                handleSubmit={handleSubmit}
                                 counts={counts}
+                                open={open}
+                                setOpen={setOpen}
+                                exam={exam}
+                                examID={examID}
                             />}
                     </div>
                     <div className='flex w-full justify-between px-2 bg-gray-200'>

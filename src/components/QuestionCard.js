@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router'
 import PopUp from './PopUp';
+import axios from 'axios';
+import '../axios';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,9 +10,35 @@ import FormControl from '@mui/material/FormControl';
 import { Button } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
-const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus, handleSubmit, counts }) => {
-    // console.log(question);
-    const [open, setOpen] = useState(false)
+const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus, counts, open, setOpen, exam, examID }) => {
+
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        let object = {};
+        object.examID = examID;
+        object.studentID = JSON.parse(localStorage.getItem('userData')).user.userID;
+        object.score = 0;
+        object.response = [];
+        for (let i = 0; i < response.length; i++) {
+            let temp = {};
+            temp.question = exam.questions[i].question;
+            temp.questionID = exam.questions[i]._id;
+            temp.givenAnswer = response[i] ? response[i] : null;
+            object.response.push(temp);
+        }
+
+        axios.post(`/result/submit/${examID}`, {
+            response: { ...object }
+        })
+            .then(res => {
+                console.log(res)
+                navigate(`/exam/result/${res.data.result._id}`)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     return (
         <div className='mx-12'>
