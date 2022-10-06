@@ -64,7 +64,7 @@ const ExamPannel = () => {
                     <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
                     <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
                         <p className='relative top-2'>
-                            {exam && <CountDownTimer minutes={exam.duration} handleSubmit={console.log} />}
+                            {exam.duration !== undefined && <CountDownTimer minutes={exam.duration} handleSubmit={console.log} />}
                         </p>
                     </span>
                     <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => setOpen(true)}>Submit</Button>
