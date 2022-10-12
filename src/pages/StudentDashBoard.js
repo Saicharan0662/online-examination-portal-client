@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import ExamCard from '../components/ExamCard';
@@ -9,6 +10,7 @@ import Button from '@mui/material/Button';
 const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const [exams, setExams] = useState([])
+    const navigate = useNavigate()
 
     const getExams = () => {
         setIsLoading(true)
@@ -40,7 +42,7 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
                     <div className=' my-6'>
                         <div className='flex justify-between'>
                             <h1 className='text-xl font-bold'>Dashboard</h1>
-                            <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => { }}>Results</Button>
+                            <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => navigate(`/results/${user.userID}`)}>Results</Button>
                         </div>
                     </div>
                     <div className='my-6'>

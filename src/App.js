@@ -9,6 +9,7 @@ import ActivateAccount from './pages/ActivateAccount';
 import ExamForm from './components/ExamForm';
 import ExamPannel from './pages/ExamPannel';
 import ExamResult from './pages/ExamResult';
+import Results from './pages/Results';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
           <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />
           <Route exact path='/create-exam' element={<ExamForm />} />
+          <Route exact path='/results/:studentID' element={<Results />} />
           <Route exact path='/edit-exam/:examID' element={<ExamForm />} />
           <Route exact path='/exam/:examID' element={<ExamPannel />} />
           <Route exact path='/exam/result/:resultID' element={<ExamResult />} />
