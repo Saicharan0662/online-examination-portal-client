@@ -17,7 +17,7 @@ const Results = () => {
         setIsLoading(true)
         axios.get(`/result/student/${studentID}`)
             .then(res => {
-                console.log(res.data.results)
+                console.log(res.data.results[0])
                 setExams(res.data.results)
                 setIsLoading(false)
             })
@@ -46,9 +46,8 @@ const Results = () => {
                     <div className="my-6">
                         <div className='flex gap-y-4 justify-around flex-wrap'>
                             {exams && exams.map((exam, index) => {
-                                console.log(exam)
                                 return (
-                                    <ExamResultCard exam={exam.exam.examDetails} key={index} count={exams.length} />
+                                    <ExamResultCard exam={exam} key={index} count={exam.count} />
                                 )
                             })}
                         </div>

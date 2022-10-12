@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import '../axios'
 import Tags from './Tags'
-import toast, { Toaster } from 'react-hot-toast';
-import deleteIcon from '../asserts/icons/deleteIcon.png'
-import editIcon from '../asserts/icons/edit.png'
+// import toast, { Toaster } from 'react-hot-toast';
 
 
 const ExamResultCard = ({ exam, count }) => {
@@ -14,10 +12,10 @@ const ExamResultCard = ({ exam, count }) => {
 
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
-            <Toaster />
-            <h1 className='text-lg font-semibold truncate mb-4' style={{ width: '85%' }}>{exam.name.toUpperCase()}</h1>
+            {/* <Toaster /> */}
+            <h1 className='text-lg font-semibold truncate mb-4' style={{ width: '85%' }}>{exam.exams[0].name.toUpperCase()}</h1>
             <div>
-                {exam.topics.map((tag, index) => {
+                {exam.exams[0].topics.map((tag, index) => {
                     return (
                         <span key={index} className='mr-1'>
                             <Tags tag={tag} />
@@ -25,12 +23,12 @@ const ExamResultCard = ({ exam, count }) => {
                     )
                 })}
                 <span className='mr-3'>
-                    <Tags tag={exam.score} />
+                    <Tags tag={`${exam.score}% MAX`} />
                 </span>
             </div>
             <div className=''>
                 <button className='student-exam-card-btn' onClick={() => {
-                    navigate(`/exam/result/${exam._id}`)
+                    navigate(`/exam/result/${exam.resultID}`)
                 }}>
                     View Result
                 </button>
