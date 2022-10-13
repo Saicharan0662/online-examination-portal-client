@@ -10,6 +10,7 @@ import ExamForm from './components/ExamForm';
 import ExamPannel from './pages/ExamPannel';
 import ExamResult from './pages/ExamResult';
 import Results from './pages/Results';
+import SingleExamResults from './pages/SingleExamResults';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/edit-exam/:examID' element={<ExamForm />} />
           <Route exact path='/exam/:examID' element={<ExamPannel />} />
           <Route exact path='/exam/result/:resultID' element={<ExamResult />} />
+          <Route exact path='/result/exam/:examID/:studentID' element={<SingleExamResults />} />
         </Routes>
       </Router>
     </div>

@@ -4,7 +4,6 @@ import axios from 'axios';
 import '../axios';
 import toast, { Toaster } from 'react-hot-toast';
 import Navbar from '../components/Navbar'
-import ExamCard from '../components/ExamCard';
 import ExamResultCard from '../components/ExamResultCard';
 
 const Results = () => {
@@ -12,6 +11,9 @@ const Results = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [exams, setExams] = useState([])
     const { studentID } = useParams();
+
+    const user = JSON.parse(localStorage.getItem('userData')) ?
+        JSON.parse(localStorage.getItem('userData')).user : null;
 
     useEffect(() => {
         setIsLoading(true)
@@ -44,10 +46,11 @@ const Results = () => {
                     </div>
 
                     <div className="my-6">
+                        <h1 className='text-lg font-medium my-4'>Total Exams: {exams.length}</h1>
                         <div className='flex gap-y-4 justify-around flex-wrap'>
                             {exams && exams.map((exam, index) => {
                                 return (
-                                    <ExamResultCard exam={exam} key={index} count={exam.count} />
+                                    <ExamResultCard exam={exam} key={index} count={exam.count} userID={user.userID} />
                                 )
                             })}
                         </div>

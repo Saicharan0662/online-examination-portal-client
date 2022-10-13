@@ -6,7 +6,7 @@ import Tags from './Tags'
 // import toast, { Toaster } from 'react-hot-toast';
 
 
-const ExamResultCard = ({ exam, count }) => {
+const ExamResultCard = ({ exam, count, userID }) => {
 
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const ExamResultCard = ({ exam, count }) => {
             </div>
             <div className=''>
                 <button className='student-exam-card-btn' onClick={() => {
-                    navigate(`/exam/result/${exam.resultID}`)
+                    navigate(`/result/exam/${exam._id}/${userID}`)
                 }}>
                     View Result
                 </button>
