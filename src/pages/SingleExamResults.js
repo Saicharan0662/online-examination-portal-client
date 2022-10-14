@@ -56,7 +56,7 @@ const SingleExamResults = () => {
                                         key={'name'}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">
+                                        <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Name'}
                                         </TableCell>
                                         <TableCell align="right">{examDetails.name}</TableCell>
@@ -65,7 +65,7 @@ const SingleExamResults = () => {
                                         key={'description'}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">
+                                        <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Description'}
                                         </TableCell>
                                         <TableCell align="right">{examDetails.description}</TableCell>
@@ -74,7 +74,7 @@ const SingleExamResults = () => {
                                         key={'attempts'}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">
+                                        <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Total Attempts'}
                                         </TableCell>
                                         <TableCell align="right">{results.length}</TableCell>
@@ -83,7 +83,7 @@ const SingleExamResults = () => {
                                         key={'topics'}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row">
+                                        <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Topic'}
                                         </TableCell>
                                         <TableCell align="right">
