@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -23,12 +24,60 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         option4: '',
         answer: { id: 1, value: 'option 2' },
     })
+    const [image, setImage] = useState(null)
+    const [imageUrl, setImageUrl] = useState(null)
+
+    const handleImageSubmit = async (image) => {
+        // console.log(image)
+        if (!image) {
+            alert("Please upload image")
+            return;
+        }
+        const data = new FormData()
+        data.append("file", image)
+        data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET)
+        // const resData = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+        //     }/upload`, {
+        //     data: data,
+        //     skipAuthorization: true
+        // })
+
+        // const resData = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+        //     }/upload`, {
+        //     headers: {
+        //         Authorization: '',
+        //         'Content-Type': null
+        //     },
+        //     data: {
+        //         source: data
+        //     }
+        // });
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+            }/upload`, {
+            method: "POST",
+            body: data,
+            mode: 'no-cors',
+        })
+        // console.log(resData)
+
+        console.log(res)
+        // setImageUrl(resData.data.url)
+        // try {
+        //     const res = await axios.post('http://localhost:5000/api/v1/image-upload', { imageURL })
+        //     console.table(res.data.data)
+        //     setImageData(res.data.data)
+        // } catch (error) {
+        //     console.log(error)
+        // }
+    }
 
     const deleteQuestion = (index) => {
         let newData = [...data]
         newData[0].questions = newData[0].questions.filter((item, i) => i !== index)
         setData(newData)
     }
+
 
     return (
         <div>
@@ -128,6 +177,14 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                                 placeholder="option 1"
                             />
                         )}
+                    />
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        accept='image/*'
+                        className='my-4 '
+                        onChange={(e) => handleImageSubmit(e.target.files[0])}
                     />
                     <Button onClick={() => {
                         let newInput = [...data];
