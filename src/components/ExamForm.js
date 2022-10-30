@@ -29,7 +29,7 @@ const ExamForm = () => {
         description: '',
         duration: null,
         topics: [],
-        questions: []
+        questions: [],
     })
 
     const [data, setData] = useState([])
@@ -115,7 +115,8 @@ const ExamForm = () => {
             createdQuestions.push({
                 question: item.question,
                 options: [item.option1, item.option2, item.option3, item.option4],
-                answer: item.answer.value
+                answer: item.answer.value,
+                image: item.image
             })
         ))
         data[0].topics.map((item, i) => (

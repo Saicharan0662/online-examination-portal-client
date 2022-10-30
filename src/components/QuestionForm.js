@@ -28,7 +28,6 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
     const [imageUrl, setImageUrl] = useState(null)
 
     const handleImageSubmit = async (image) => {
-        // console.log(image)
         if (!image) {
             alert("Please upload image")
             return;
@@ -36,40 +35,21 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         const data = new FormData()
         data.append("file", image)
         data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET)
-        // const resData = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
-        //     }/upload`, {
-        //     data: data,
-        //     skipAuthorization: true
-        // })
 
-        // const resData = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
-        //     }/upload`, {
-        //     headers: {
-        //         Authorization: '',
-        //         'Content-Type': null
-        //     },
-        //     data: {
-        //         source: data
-        //     }
-        // });
-
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
-            }/upload`, {
-            method: "POST",
-            body: data,
-            mode: 'no-cors',
-        })
-        // console.log(resData)
-
-        console.log(res)
-        // setImageUrl(resData.data.url)
-        // try {
-        //     const res = await axios.post('http://localhost:5000/api/v1/image-upload', { imageURL })
-        //     console.table(res.data.data)
-        //     setImageData(res.data.data)
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+                }/upload`, {
+                method: "POST",
+                body: data,
+            })
+            const file = await res.json()
+            // console.log(file.url)
+            setImage(image)
+            setImageUrl(file.url)
+        } catch (error) {
+            console.log(error)
+            setImage(null)
+        }
     }
 
     const deleteQuestion = (index) => {
@@ -188,7 +168,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                     />
                     <Button onClick={() => {
                         let newInput = [...data];
-                        newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer });
+                        newInput[index].questions.push({ question: question.question, option1: question.option1, option2: question.option2, option3: question.option3, option4: question.option4, answer: question.answer, image: imageUrl });
                         setData(newInput);
                         setQuestion({
                             question: '',
