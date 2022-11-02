@@ -82,7 +82,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         data[0].topics.map((item, i) => (
             createdTopics.push(item.title)
         ))
-        console.log(createdQuestions)
+
         axios.post(`/exam`, {
             name: data[0].name,
             description: data[0].description,

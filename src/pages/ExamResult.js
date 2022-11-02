@@ -115,7 +115,6 @@ const ExamResult = () => {
                                                         {row.answer?.includes('4') && row.options[3]}
                                                     </TableCell>
                                                     <TableCell align="right">
-                                                        {console.log(result.response[index])}
                                                         {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('2') && row.options[1]}
                                                         {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('3') && row.options[2]}
                                                         {result.response[index].givenAnswer && result.response[index].givenAnswer.includes('4') && row.options[3]}

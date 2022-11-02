@@ -14,7 +14,6 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
 
     const navigate = useNavigate();
 
-    console.log(question)
     const handleSubmit = () => {
         let object = {};
         object.examID = examID;

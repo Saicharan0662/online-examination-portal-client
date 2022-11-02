@@ -19,7 +19,6 @@ const Results = () => {
         setIsLoading(true)
         axios.get(`/result/student/${studentID}`)
             .then(res => {
-                console.log(res.data.results[0])
                 setExams(res.data.results)
                 setIsLoading(false)
             })
