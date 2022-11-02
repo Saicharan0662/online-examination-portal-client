@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
+import readXlsxFile from 'read-excel-file'
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import Backdrop from '@mui/material/Backdrop';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -16,6 +19,8 @@ const quizOptions = [
 
 const QuestionForm = ({ data, setData, index, step, setStep, saved = null, createExam, updateExam, examID = null }) => {
 
+    const navigate = useNavigate();
+
     const [question, setQuestion] = useState({
         question: '',
         option1: '',
@@ -24,7 +29,8 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         option4: '',
         answer: { id: 1, value: 'option 2' },
     })
-    const [image, setImage] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    // const [image, setImage] = useState(null)
     const [imageUrl, setImageUrl] = useState(null)
 
     const handleImageSubmit = async (image) => {
@@ -44,11 +50,11 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             })
             const file = await res.json()
             // console.log(file.url)
-            setImage(image)
+            // setImage(image)
             setImageUrl(file.url)
         } catch (error) {
             console.log(error)
-            setImage(null)
+            // setImage(null)
         }
     }
 
@@ -58,11 +64,56 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         setData(newData)
     }
 
+    const readFromExcelSheet = async (e) => {
+        setIsLoading(true)
+        let createdQuestions = []
+        let createdTopics = []
+
+        await readXlsxFile(e.target.files[0]).then((rows, index) => {
+            for (let i = 1; i < rows.length; i++) {
+                createdQuestions.push({
+                    question: rows[i][0],
+                    options: rows[i][1].split(','),
+                    answer: rows[i][2],
+                    image: rows[i][3]
+                })
+            }
+        })
+        data[0].topics.map((item, i) => (
+            createdTopics.push(item.title)
+        ))
+        console.log(createdQuestions)
+        axios.post(`/exam`, {
+            name: data[0].name,
+            description: data[0].description,
+            duration: data[0].duration,
+            topics: [...createdTopics],
+            questions: [...createdQuestions]
+        }).then(res => {
+            setIsLoading(false)
+            toast.success('Exam created successfully')
+            navigate('/dashboard')
+        }).catch(err => {
+            toast.error(err.response.data.msg)
+            setIsLoading(false)
+        })
+    }
 
     return (
         <div>
             <Toaster />
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={isLoading}
+            ></Backdrop>
             <div className='flex flex-col items-center gap-y-2' style={{ margin: '0 20%' }}>
+                <div>
+                    <div>
+                        <p>Upload file</p>
+                        <input type="file" onChange={(e) => readFromExcelSheet(e)} />
+                    </div>
+                    <h2 className='text-center my-6'>OR</h2>
+                </div>
                 {saved && saved.questions && saved.questions.length > 0 &&
                     <div className=''>
                         {
