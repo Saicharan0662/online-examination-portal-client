@@ -52,9 +52,10 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
             />
             <div className=' my-4 px-8 py-4 rounded-md' style={{ background: '	#FAF9F6' }}>
                 <h3>{currQuestion + 1}. {question[currQuestion]?.question}</h3>
-                <div className='my-4'>
-                    <img src={question[currQuestion]?.image} alt={'media'} style={{ width: 400, height: 200 }} />
-                </div>
+                {question[currQuestion]?.image &&
+                    <div className='my-4'>
+                        <img src={question[currQuestion]?.image} alt={'media'} style={{ width: 400, height: 200 }} />
+                    </div>}
                 <div className='my-8'>
                     <FormControl>
                         <RadioGroup
