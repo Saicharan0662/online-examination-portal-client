@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import axios from 'axios';
 import '../axios';
 import QuestionCard from '../components/QuestionCard';
@@ -12,6 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const ExamPannel = () => {
 
     const { examID } = useParams();
+    const navigate = useNavigate();
     const [exam, setExam] = useState([])
     const [response, setResponse] = useState([])
     const [currQuestion, setCurrQuestion] = useState(0);
@@ -51,6 +52,29 @@ const ExamPannel = () => {
 
     }, [questionStatus])
 
+    const handleSubmit = () => {
+        let object = {};
+        object.examID = examID;
+        object.studentID = JSON.parse(localStorage.getItem('userData')).user.userID;
+        object.score = 0;
+        object.response = [];
+        for (let i = 0; i < response.length; i++) {
+            let temp = {};
+            temp.question = exam.questions[i].question;
+            temp.questionID = exam.questions[i]._id;
+            temp.givenAnswer = response[i] ? response[i] : null;
+            object.response.push(temp);
+        }
+
+        axios.post(`/result/submit/${examID}`, {
+            response: { ...object }
+        }).then(res => {
+            navigate(`/exam/result/${res.data.result._id}`)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     return (
         <>
             <Backdrop
@@ -64,7 +88,11 @@ const ExamPannel = () => {
                     <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
                     <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
                         <p className='relative top-2'>
-                            {exam.duration !== undefined && <CountDownTimer minutes={exam.duration} handleSubmit={console.log} />}
+                            {exam.duration !== undefined &&
+                                <CountDownTimer
+                                    minutes={exam.duration}
+                                    handleSubmit={handleSubmit}
+                                />}
                         </p>
                     </span>
                     <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => setOpen(true)}>Submit</Button>
