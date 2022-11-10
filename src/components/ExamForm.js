@@ -154,18 +154,18 @@ const ExamForm = () => {
                         {step === 0 &&
                             <div>
                                 <div className='' style={{ margin: '0 20%' }}>
-                                    <TextField required type={'text'} fullWidth id="outlined-basic" label="Name" variant="standard" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
+                                    <TextField required type={'text'} fullWidth id="outlined-basic" label="Name" variant="filled" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
                                     <TextField
                                         id="standard-multiline-static"
                                         label="Description"
                                         multiline
                                         rows={2}
                                         defaultValue={input.description}
-                                        variant="standard"
+                                        variant="filled"
                                         onChange={e => setInput({ ...input, description: e.target.value })}
                                         fullWidth
                                     />
-                                    <TextField required type={'number'} fullWidth id="outlined-basic" label="Duration (minutes)" variant="standard" size='small' value={input.duration} onChange={e => setInput({ ...input, duration: e.target.value })} />
+                                    <TextField required type={'number'} InputLabelProps={{ shrink: true }} fullWidth id="outlined-basic" label="Duration (minutes)" variant="filled" size='small' value={input.duration} onChange={e => setInput({ ...input, duration: e.target.value })} />
                                     <Autocomplete
                                         multiple
                                         required
@@ -178,7 +178,7 @@ const ExamForm = () => {
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
-                                                variant="standard"
+                                                variant="filled"
                                                 label="Topics"
                                                 placeholder="DSA"
                                             />
