@@ -41,7 +41,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
     }
 
     return (
-        <div className='mx-12'>
+        <div className='mx-12 '>
             <PopUp
                 open={open}
                 setOpen={setOpen}
@@ -50,7 +50,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                 description="You will not be able to change your response after submitting. However, you can submit multiple times."
                 counts={counts}
             />
-            <div className=' my-4 px-8 py-4 rounded-md' style={{ background: '	#FAF9F6' }}>
+            <div className=' my-4 px-8 py-4 rounded-md text-white' style={{ background: 'rgb(30 58 138)' }}>
                 <h3>{currQuestion + 1}. {question[currQuestion]?.question}</h3>
                 {question[currQuestion]?.image &&
                     <div className='my-4'>

@@ -17,6 +17,11 @@
     color: white;
 }
 
+.dark-blue-bg {
+    background: #302b63;
+    color: white;
+}
+
 .bg-blue-pattern {
     background-image: url('./asserts/background/bgPatternExaminer.jpg');
     background-repeat: no-repeat;

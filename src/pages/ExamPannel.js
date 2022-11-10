@@ -84,9 +84,9 @@ const ExamPannel = () => {
                 <CircularProgress color="inherit" />
             </Backdrop>
             <div className='min-h-screen w-full flex flex-col items-center'>
-                <div className='flex w-full justify-between items-center px-8 bg-gray-200 ' style={{ height: "50px" }}>
+                <div className='flex w-full justify-between items-center px-8 dark-blue-bg' style={{ height: "50px" }}>
                     <h1 className='text-lg font-semibold' style={{ zIndex: 1 }}>{exam.name}</h1>
-                    <span className='text-lg font-normal bg-gray-300 px-6' style={{ height: "50px" }}>
+                    <span className='text-lg font-normal px-6 bg-blue-900' style={{ height: "50px" }}>
                         <p className='relative top-2'>
                             {exam.duration !== undefined &&
                                 <CountDownTimer
@@ -95,9 +95,9 @@ const ExamPannel = () => {
                                 />}
                         </p>
                     </span>
-                    <Button variant='outlined' className='rounded-md' size='small' color='success' onClick={() => setOpen(true)}>Submit</Button>
+                    <Button variant='outlined' className='rounded-md' size='small' color='success' style={{ color: 'lightgreen' }} onClick={() => setOpen(true)}>Submit</Button>
                 </div>
-                <div className=' w-1/4 absolute left-0 pt-16 px-2 bg-gray-200 flex flex-col justify-between' style={{ height: '99.7vh' }}>
+                <div className=' w-1/5 absolute left-0 bottom-0 pt-16 px-2 dark-blue-bg flex flex-col justify-between' style={{ height: '99.7vh' }}>
                     <div>
                         <h2 className='text-md font-medium pt-6 -mt-4' style={{ borderTop: "1px solid black" }}>Questions Status</h2>
                         <div>
@@ -167,31 +167,31 @@ const ExamPannel = () => {
                                 examID={examID}
                             />}
                     </div>
-                    <div className='flex w-full justify-between px-2 bg-gray-200'>
-                        <div>
-                            <Chip
-                                label={counts.rest}
-                                color='primary'
-                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
-                            />
-                            <span>Not answered</span>
-                        </div>
-                        <div>
-                            <Chip
-                                label={counts.answered}
-                                color='success'
-                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
-                            />
-                            <span>Answered</span>
-                        </div>
-                        <div>
-                            <Chip
-                                label={counts.flagged}
-                                color='secondary'
-                                style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
-                            />
-                            <span>Flagged</span>
-                        </div>
+                </div>
+                <div className='w-4/5 absolute right-0 bottom-0 flex w-full justify-between px-2 dark-blue-bg'>
+                    <div>
+                        <Chip
+                            label={counts.rest}
+                            color='primary'
+                            style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                        />
+                        <span>Not answered</span>
+                    </div>
+                    <div>
+                        <Chip
+                            label={counts.answered}
+                            color='success'
+                            style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                        />
+                        <span>Answered</span>
+                    </div>
+                    <div>
+                        <Chip
+                            label={counts.flagged}
+                            color='secondary'
+                            style={{ margin: '7px', width: '50px', aspectRatio: '1' }}
+                        />
+                        <span>Flagged</span>
                     </div>
                 </div>
             </div>

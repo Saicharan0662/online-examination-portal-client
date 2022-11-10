@@ -22,7 +22,7 @@ const CountDownTimer = ({ minutes, handleSubmit }) => {
 
 
     return (
-        <span>{`${mins.toString()}:${secs.toString()}`}</span>
+        <span className='text-white'>{`${mins.toString()}:${secs.toString()}`}</span>
     )
 }
 

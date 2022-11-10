@@ -30,7 +30,10 @@ const ExamResult = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar
+                btnText='Dashboard'
+                path='/dashboard'
+            />
             <div className='min-h-screen w-full flex flex-col items-center bg-gray-100'>
                 {result &&
                     <div className='dashboard-width' >
