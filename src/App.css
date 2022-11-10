@@ -1,3 +1,22 @@
+.landing-bg {
+    background-image: url('../src/asserts/background/landingbgHome.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.signup-signin-bg {
+    background-image: url('../src/asserts/background/landingBg1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.transparent-bg {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
 .bg-blue-pattern {
     background-image: url('./asserts/background/bgPatternExaminer.jpg');
     background-repeat: no-repeat;

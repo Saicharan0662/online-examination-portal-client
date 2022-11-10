@@ -63,31 +63,43 @@ const Login = () => {
     return (
         <div className=''>
             <Toaster />
-            <Navbar
-                btnText='Register'
-                path='/signup'
-                isLoading={isLoading}
-            />
-            <div className='flex flex-col justify-center items-center md:bg-gray-100' style={{ height: '93vh' }}>
-                <div className='md:p-8 bg-white rounded-md'>
-                    <h2 className='text-xl mx-2 md:text-2xl font-semibold'>Log in</h2>
-                    <form onSubmit={login} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-6'>
-                        <TextField type={'email'} fullWidth id="outlined-basic" label="Email" variant="outlined" size='small' value={input.email} onChange={e => setInput({ ...input, email: e.target.value })} />
-                        <TextField type={'password'} fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={['student', 'examiner']}
-                            sx={{ width: 300 }}
-                            value={input.userType}
-                            defaultValue={'student'}
-                            onChange={(e, values) => setInput({ ...input, userType: values })}
-                            renderInput={(params) => <TextField {...params} label="Category" />}
-                            size='small'
-                        />
-                        <p className='text-xs text-blue-500 font-normal self-end -my-4 cursor-pointer' onClick={getResetLink}>Forget password</p>
-                        <Button type='submit' variant="contained" size='small' className='self-start'>Login</Button>
-                    </form>
+            <div className='signup-signin-bg relative' style={{ height: '100vh' }}>
+                <Navbar
+                    btnText='Register'
+                    path='/signup'
+                    isLoading={isLoading}
+                />
+                <div className='flex flex-col justify-center items-center' style={{ height: '90vh' }}>
+                    <div className='md:p-8 transparent-bg rounded-md'>
+                        <h2 className='text-xl mx-2 md:text-2xl font-semibold'>Log in</h2>
+                        <form onSubmit={login} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-6'>
+                            <TextField
+                                type={'email'}
+                                fullWidth
+                                id="outlined-basic"
+                                label="Email"
+                                variant="outlined"
+                                size='small'
+                                value={input.email}
+                                onChange={e => setInput({ ...input, email: e.target.value })}
+                                style={{ color: 'white' }}
+                            />
+                            <TextField type={'password'} fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={['student', 'examiner']}
+                                sx={{ width: 300 }}
+                                value={input.userType}
+                                defaultValue={'student'}
+                                onChange={(e, values) => setInput({ ...input, userType: values })}
+                                renderInput={(params) => <TextField {...params} label="Category" />}
+                                size='small'
+                            />
+                            <p className='text-xs text-blue-500 font-normal self-end -my-4 cursor-pointer' onClick={getResetLink}>Forget password</p>
+                            <Button type='submit' variant="contained" size='small' className='self-start'>Login</Button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

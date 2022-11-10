@@ -36,30 +36,32 @@ const Signup = () => {
     return (
         <div className=''>
             <Toaster />
-            <Navbar
-                btnText='Login'
-                path='/login'
-                isLoading={isLoading}
-            />
-            <div className='flex flex-col justify-center items-center md:bg-gray-100' style={{ height: '93vh' }}>
-                <div className='md:p-8 bg-white rounded-md'>
-                    <h2 className='text-xl mx-2 md:text-2xl font-semibold'>Register</h2>
-                    <form onSubmit={signup} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-8'>
-                        <TextField type={'text'} required fullWidth id="outlined-basic" label="Name" variant="outlined" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
-                        <TextField type={"email"} required fullWidth id="outlined-basic" label="Email" variant="outlined" size='small' value={input.email} onChange={e => setInput({ ...input, email: e.target.value })} />
-                        <TextField type={"password"} required fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={['student', 'examiner']}
-                            sx={{ width: 300 }}
-                            defaultValue={"student"}
-                            onChange={(e, value) => setInput({ ...input, userType: value })}
-                            renderInput={(params) => <TextField {...params} label="Category" />}
-                            size='small'
-                        />
-                        <Button type='submit' variant="contained" size='small' className='self-start'>Submit</Button>
-                    </form>
+            <div className='signup-signin-bg relative' style={{ height: '100vh' }}>
+                <Navbar
+                    btnText='Login'
+                    path='/login'
+                    isLoading={isLoading}
+                />
+                <div className='flex flex-col justify-center items-center ' style={{ height: '90vh' }}>
+                    <div className='md:p-8 transparent-bg rounded-md'>
+                        <h2 className='text-xl mx-2 md:text-2xl font-semibold'>Register</h2>
+                        <form onSubmit={signup} className='flex flex-col justify-left items-center py-8 px-6 md:p-10 gap-y-8'>
+                            <TextField type={'text'} required fullWidth id="outlined-basic" label="Name" variant="outlined" size='small' value={input.name} onChange={e => setInput({ ...input, name: e.target.value })} />
+                            <TextField type={"email"} required fullWidth id="outlined-basic" label="Email" variant="outlined" size='small' value={input.email} onChange={e => setInput({ ...input, email: e.target.value })} />
+                            <TextField type={"password"} required fullWidth id="outlined-basic" label="Password" variant="outlined" size='small' value={input.password} onChange={e => setInput({ ...input, password: e.target.value })} />
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={['student', 'examiner']}
+                                sx={{ width: 300 }}
+                                defaultValue={"student"}
+                                onChange={(e, value) => setInput({ ...input, userType: value })}
+                                renderInput={(params) => <TextField {...params} label="Category" />}
+                                size='small'
+                            />
+                            <Button type='submit' variant="contained" size='small' className='self-start'>Submit</Button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
