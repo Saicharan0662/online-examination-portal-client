@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useParams, Navigate } from 'react-router'
 import axios from 'axios';
 import '../axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -28,7 +28,6 @@ const Results = () => {
                 setIsLoading(false)
             })
     }, [])
-
 
     return (
         <div>

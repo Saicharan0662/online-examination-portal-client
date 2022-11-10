@@ -11,9 +11,13 @@ const Dashboard = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+
+    if (!user) {
+        return <Navigate to='/' />
+    }
+
     return (
         <>
-            {!user && <Navigate to='/' />}
             <Navbar
                 btnText='Logout'
                 path='/'

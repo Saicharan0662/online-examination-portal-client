@@ -9,13 +9,13 @@ import Tags from './Tags'
 const ExamResultCard = ({ exam, count, userID }) => {
 
     const navigate = useNavigate();
-
+    // console.log(exam.exams[0].name)
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
             {/* <Toaster /> */}
-            <h1 className='text-lg font-semibold truncate mb-4' style={{ width: '85%' }}>{exam.exams[0].name.toUpperCase()}</h1>
+            <h1 className='text-lg font-semibold truncate mb-4' style={{ width: '85%' }}>{exam?.exams[0]?.name.toUpperCase()}</h1>
             <div>
-                {exam.exams[0].topics.map((tag, index) => {
+                {exam?.exams[0]?.topics.map((tag, index) => {
                     return (
                         <span key={index} className='mr-1'>
                             <Tags tag={tag} />
