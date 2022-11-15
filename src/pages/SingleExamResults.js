@@ -113,7 +113,7 @@ const SingleExamResults = () => {
                                             navigate(`/exam/result/${result._id}`)
                                         }}
                                     >
-                                        <p className='text-sm'>Attemted on: {moment(result.createdAt).format('MMM Do YY')}</p>
+                                        <p className='text-sm'>Attempted on: {moment(result.createdAt).format('MMM Do YY')}</p>
                                         <p className='font-medium'>{result.score}%</p>
                                     </span>
                                 )

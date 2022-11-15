@@ -16,8 +16,7 @@ const ExaminerResults = () => {
         setIsLoading(true);
         axios(`/result/examiner/${examinerID}`)
             .then(res => {
-                console.log(res.data)
-                setResults(res.data.results)
+                setResults(res?.data?.results)
                 setIsLoading(false)
             })
             .catch(err => {
@@ -45,12 +44,10 @@ const ExaminerResults = () => {
                 <div className="my-6">
                     <h1 className='text-lg font-medium my-4'>Total exam registrations: {results.length}</h1>
                     <div className='flex gap-y-4 justify-around flex-wrap'>
-                        {results && results.length > 0 && results.map((exam, index) => {
+                        {results && results.length > 0 && results.map((result, index) => {
                             return (
                                 <StudentRegistrationCard
-                                    exam={exam}
-                                    count={exam.studentResults.length}
-                                    studentID={exam.studentResults[index].studentID}
+                                    result={result}
                                     index={index}
                                 />
                             )
