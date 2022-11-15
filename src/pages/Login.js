@@ -93,10 +93,14 @@ const Login = () => {
                                 value={input.userType}
                                 defaultValue={'student'}
                                 onChange={(e, values) => setInput({ ...input, userType: values })}
-                                renderInput={(params) => <TextField {...params} label="Category" />}
+                                renderInput={(params) => <TextField {...params} label="Role" />}
                                 size='small'
                             />
                             <p className='text-xs text-blue-500 font-normal self-end -my-4 cursor-pointer' onClick={getResetLink}>Forget password</p>
+                            <p className='text-xs relative right-14 text-blue-500'>Dont have an account?{' '}
+                                <span className='underline cursor-pointer' onClick={() => navigate('/signup')}>create</span>
+                                {' '}here
+                            </p>
                             <Button type='submit' variant="contained" size='small' className='self-start'>Login</Button>
                         </form>
                     </div>
