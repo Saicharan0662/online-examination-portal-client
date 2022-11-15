@@ -33,6 +33,10 @@
     width: 45%;
 }
 
+.student-card-width {
+    width: 400px;
+}
+
 .dashboard-width {
     width: 75%;
 }
@@ -62,6 +66,12 @@
     }
 
     .dashboard-width {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 473px) {
+    .student-card-width {
         width: 90%;
     }
 }

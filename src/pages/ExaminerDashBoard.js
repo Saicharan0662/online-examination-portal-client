@@ -41,7 +41,8 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
                     <div className=' my-6'>
                         <div className='flex justify-between'>
                             <h1 className='text-xl font-bold'>Dashboard</h1>
-                            <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />} onClick={() => navigate('/create-exam')}>create exam</Button>
+                            <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />} onClick={() => navigate('/create-exam')}>Create exam</Button>
+                            <Button variant='contained' className='rounded-md' size='small' color='secondary' onClick={() => navigate(`/result/examiner/${user.userID}`)}>Results</Button>
                         </div>
                     </div>
                     <div className='my-6'>

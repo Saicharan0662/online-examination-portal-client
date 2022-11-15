@@ -26,8 +26,8 @@ const SingleExamResults = () => {
         setIsLoading(true)
         axios.get(`/result/student/${studentID}/exam/${examID}`)
             .then(res => {
-                setResults(res.data.results)
-                setExamDetails(res.data.results[0].examDetails)
+                setResults(res?.data?.results)
+                setExamDetails(res?.data?.results[0]?.examDetails)
                 setIsLoading(false)
             })
             .catch(err => {
@@ -59,7 +59,7 @@ const SingleExamResults = () => {
                                         <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Name'}
                                         </TableCell>
-                                        <TableCell align="right">{examDetails.name}</TableCell>
+                                        <TableCell align="right">{examDetails?.name}</TableCell>
                                     </TableRow>
                                     <TableRow
                                         key={'description'}
@@ -68,7 +68,7 @@ const SingleExamResults = () => {
                                         <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Description'}
                                         </TableCell>
-                                        <TableCell align="right">{examDetails.description}</TableCell>
+                                        <TableCell align="right">{examDetails?.description}</TableCell>
                                     </TableRow>
                                     <TableRow
                                         key={'attempts'}
@@ -77,7 +77,7 @@ const SingleExamResults = () => {
                                         <TableCell component="th" scope="row" style={{ fontWeight: 600 }}>
                                             {'Total Attempts'}
                                         </TableCell>
-                                        <TableCell align="right">{results.length}</TableCell>
+                                        <TableCell align="right">{results?.length}</TableCell>
                                     </TableRow>
                                     <TableRow
                                         key={'topics'}
@@ -87,7 +87,7 @@ const SingleExamResults = () => {
                                             {'Topic'}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {examDetails.topics !== undefined && examDetails.topics.map((topic, index) => {
+                                            {examDetails && examDetails.topics !== undefined && examDetails.topics.map((topic, index) => {
                                                 return (
                                                     <span key={index} className='mr-1'>
                                                         <Tags tag={topic} />

@@ -11,6 +11,7 @@ import ExamPannel from './pages/ExamPannel';
 import ExamResult from './pages/ExamResult';
 import Results from './pages/Results';
 import SingleExamResults from './pages/SingleExamResults';
+import ExaminerResults from './pages/ExaminerResults';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path='/exam/:examID' element={<ExamPannel />} />
           <Route exact path='/exam/result/:resultID' element={<ExamResult />} />
           <Route exact path='/result/exam/:examID/:studentID' element={<SingleExamResults />} />
+          <Route exact path='/result/examiner/:examinerID/' element={<ExaminerResults />} />
         </Routes>
       </Router>
     </div>
