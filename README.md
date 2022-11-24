@@ -8,7 +8,7 @@ Students can view all the exams, register and attend those exams. Students can a
 
 
 ### Server repository
-- [Server repo](#)
+- [Server repo](https://github.com/Saicharan0662/online-examination-portal-server)
 
 ## Tech Stack
 - React.js
