@@ -22,6 +22,7 @@ function App() {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
+          <Route exact path='/dashboard/exam-topics/:topics' element={<Dashboard />} />
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
           <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />
           <Route exact path='/create-exam' element={<ExamForm />} />

@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import '../axios';
 import ExamCard from '../components/ExamCard';
 import toast, { Toaster } from 'react-hot-toast';
 import { OpenInNew } from '@mui/icons-material';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
+const topicOptions = [
+    { title: 'DSA', id: 1 },
+    { title: 'DBMS', id: 2 },
+    { title: 'CN', id: 3 },
+    { title: 'OS', id: 4 },
+    { title: 'CD', id: 5 },
+]
 
 const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const [exams, setExams] = useState([])
     const navigate = useNavigate()
+    const [filterTopics, setFilterTopics] = useState([])
+    const { topics } = useParams()
 
     const getExams = () => {
         setIsLoading(true)
@@ -26,8 +38,49 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
             })
     }
 
+    const getFilteredExamResult = () => {
+        let topics = filterTopics.map(topic => topic.title)
+        if (topics.length === 0) {
+            getExams()
+            navigate('/dashboard')
+            return;
+        }
+        filter(topics)
+        navigate(`/dashboard/exam-topics/${topics}`)
+
+    }
+
+    const filter = (topics) => {
+        setIsLoading(true)
+        axios(`/exam/filter/get-filtered-exams/${topics}`)
+            .then(res => {
+                setExams(res.data.exams)
+                setIsLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error(err.response.data.msg)
+                setIsLoading(false)
+            })
+    }
+
     useEffect(() => {
-        getExams();
+        console.log(topics)
+        if (topics) {
+            let arr = []
+            let topicsArr = topics.split(',')
+            for (let item of topicsArr) {
+                console.log(item)
+                if (item === 'DBMS') arr.push({ title: 'DBMS', id: 2 })
+                else if (item === 'DSA') arr.push({ title: 'DSA', id: 1 })
+                else if (item === 'CN') arr.push({ title: 'CN', id: 3 })
+                else if (item === 'OS') arr.push({ title: 'OS', id: 4 })
+                else if (item === 'CD') arr.push({ title: 'CD', id: 5 })
+            }
+            setFilterTopics(arr)
+            filter(topicsArr)
+        }
+        else getExams();
     }, [])
 
 
@@ -43,6 +96,30 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
                         <div className='flex justify-between'>
                             <h1 className='text-xl font-bold'>Dashboard</h1>
                             <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => navigate(`/results/${user.userID}`)}>Results</Button>
+                        </div>
+                    </div>
+                    <div className=' my-6'>
+                        <div className='flex justify-between'>
+                            <h1 className='text-xl font-bold'>Filters</h1>
+                            <Autocomplete
+                                multiple
+                                required
+                                id="tags-standard"
+                                options={topicOptions}
+                                getOptionLabel={(option) => option.title}
+                                defaultValue={[]}
+                                value={filterTopics}
+                                onChange={(e, value) => setFilterTopics(value)}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        variant="filled"
+                                        label="Topics"
+                                        placeholder="DSA"
+                                    />
+                                )}
+                            />
+                            <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => getFilteredExamResult()}>Apply</Button>
                         </div>
                     </div>
                     <div className='my-6'>
