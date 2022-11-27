@@ -98,8 +98,8 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
                             <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => navigate(`/results/${user.userID}`)}>Results</Button>
                         </div>
                     </div>
-                    <div className=' my-6'>
-                        <div className='flex justify-between'>
+                    <div className=' my-6 p-2 rounded-md' >
+                        <div className='flex justify-between h-8'>
                             <h1 className='text-xl font-bold'>Filters</h1>
                             <Autocomplete
                                 multiple
@@ -119,7 +119,7 @@ const StudentDashBoard = ({ user, isLoading, setIsLoading }) => {
                                     />
                                 )}
                             />
-                            <Button variant='contained' className='rounded-md' size='small' color='secondary' startIcon={<OpenInNew />} onClick={() => getFilteredExamResult()}>Apply</Button>
+                            <Button variant='contained' className='rounded-md' size='small' color='secondary' onClick={() => getFilteredExamResult()}>Apply</Button>
                         </div>
                     </div>
                     <div className='my-6'>
