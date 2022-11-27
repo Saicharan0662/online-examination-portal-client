@@ -55,7 +55,7 @@ const ExamForm = () => {
                 let data = res.data.exam;
                 let newData = [...data]
                 newData[0].questions = data[0].questions.map((item, index) => {
-                    return { question: item.question, option1: item.options[0], option2: item.options[1], option3: item.options[2], option4: item.options[3], answer: { value: item.answer, id: index } }
+                    return { question: item.question, option1: item.options[0], option2: item.options[1], option3: item.options[2], option4: item.options[3], answer: { value: item.answer, id: index }, image: item.image }
                 })
                 setData(data)
                 setInput({
@@ -81,7 +81,8 @@ const ExamForm = () => {
             createdQuestions.push({
                 question: item.question,
                 options: [item.option1, item.option2, item.option3, item.option4],
-                answer: item.answer.value
+                answer: item.answer.value,
+                image: item.image
             })
         ))
         data[0].topics.map((item, i) => (
@@ -93,7 +94,7 @@ const ExamForm = () => {
             description: data[0].description,
             duration: data[0].duration,
             topics: [...createdTopics],
-            questions: [...createdQuestions]
+            questions: [...createdQuestions],
         }).then(res => {
             // console.log(res)
             setIsLoading(false)

@@ -58,6 +58,31 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         }
     }
 
+    const updateImage = async (image, i) => {
+        if (!image) {
+            alert("Please upload image")
+            return;
+        }
+        const datax = new FormData()
+        datax.append("file", image)
+        datax.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET)
+
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+                }/upload`, {
+                method: "POST",
+                body: datax,
+            })
+            const file = await res.json()
+            let newData = [...data]
+            newData[0].questions[i].image = file.url
+            setData(newData)
+            console.log(file)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const deleteQuestion = (index) => {
         let newData = [...data]
         newData[0].questions = newData[0].questions.filter((item, i) => i !== index)
@@ -114,6 +139,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                     </div>
                     <h2 className='text-center my-6'>OR</h2>
                 </div>
+                {console.log(saved.questions)}
                 {saved && saved.questions && saved.questions.length > 0 &&
                     <div className=''>
                         {
@@ -180,6 +206,35 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                                                 />
                                             )}
                                         />
+                                        {item.image ?
+                                            <div className='relative'>
+                                                <img src={item.image} width={100} height={100} />
+                                                <img
+                                                    src={deleteIcon}
+                                                    alt="delete"
+                                                    className='h-6 absolute top-3 left-24 cursor-pointer'
+                                                    style={{ zIndex: 2 }}
+                                                    width={20}
+                                                    height={20}
+                                                    onClick={() => {
+                                                        let newData = [...data]
+                                                        newData[0].questions[i].image = null
+                                                        setData(newData)
+                                                    }}
+                                                />
+                                            </div>
+                                            : <input
+                                                type="file"
+                                                name="image"
+                                                id="image"
+                                                accept='image/*'
+                                                className='my-4 '
+                                                value={item.image}
+                                                onChange={(e) => {
+                                                    updateImage(e.target.files[0], i)
+                                                }}
+                                            />
+                                        }
                                     </div>
                                 )
                             })}
