@@ -190,7 +190,8 @@ const ExamForm = () => {
                                         )}
                                     />
                                     <label htmlFor="datetime">time</label>
-                                    <input type="datetime-local" name="datetime" id="datetime" value={input.time} onChange={e => setInput({ ...input, time: e.target.value })} />
+                                    {console.log(input.time)}
+                                    <input type="datetime-local" name="datetime" id="datetime" value={input.time?.split('.')[0]} onChange={e => setInput({ ...input, time: e.target.value })} />
 
                                 </div>
                                 <Button variant="contained" size='small' endIcon={<ArrowForwardIcon />} className='float-right relative top-2'
