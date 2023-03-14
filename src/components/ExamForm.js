@@ -30,6 +30,7 @@ const ExamForm = () => {
         duration: null,
         topics: [],
         questions: [],
+        time: ''
     })
 
     const [data, setData] = useState([])
@@ -63,7 +64,8 @@ const ExamForm = () => {
                     description: res.data.exam[0].description,
                     duration: res.data.exam[0].duration,
                     topics: getTopics(res.data.exam[0].topics),
-                    questions: res.data.exam[0].questions
+                    questions: res.data.exam[0].questions,
+                    time: res.data.exam[0].time,
                 })
                 setIsLoading(false)
             })
@@ -93,6 +95,7 @@ const ExamForm = () => {
             name: data[0].name,
             description: data[0].description,
             duration: data[0].duration,
+            time: data[0].time,
             topics: [...createdTopics],
             questions: [...createdQuestions],
         }).then(res => {
@@ -128,6 +131,7 @@ const ExamForm = () => {
             name: data[0].name,
             description: data[0].description,
             duration: data[0].duration,
+            time: data[0].time,
             topics: [...createdTopics],
             questions: [...createdQuestions]
         }).then(res => {
@@ -185,6 +189,9 @@ const ExamForm = () => {
                                             />
                                         )}
                                     />
+                                    <label htmlFor="datetime">time</label>
+                                    <input type="datetime-local" name="datetime" id="datetime" value={input.time} onChange={e => setInput({ ...input, time: e.target.value })} />
+
                                 </div>
                                 <Button variant="contained" size='small' endIcon={<ArrowForwardIcon />} className='float-right relative top-2'
                                     onClick={() => {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
+import moment from 'moment/moment'
 import axios from 'axios'
 import '../axios'
 import Tags from './Tags'
@@ -44,19 +45,15 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
             <Toaster />
             <h1 className='text-lg font-semibold truncate ' style={{ width: '85%' }}>{exam.name.toUpperCase()}</h1>
             <p className='font-normal font-tiny -mt-1 mb-2'>{exam.description}</p>
-            <div>
-                {exam.topics.map((tag, index) => {
-                    return (
-                        <span key={index} className='mr-1'>
-                            <Tags tag={tag} />
-                        </span>
-                    )
-                })}
-            </div>
             <div className=''>
                 {student ?
                     <button className='student-exam-card-btn' onClick={() => {
                         if (exam.isRegistered) {
+                            let date = new Date().toISOString()
+                            if (date < exam.time) {
+                                toast.error('Exam has not been started yet')
+                                return toast(`Exam will start at ${moment(exam.time).format('DD, MMMM HH:mm')}`)
+                            }
                             navigate(`/exam/${exam._id}`)
                         }
                         else registerStudent()
@@ -73,9 +70,25 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                         />
                     </>}
             </div>
-            <span className='rounded-md px-2 py-1 bg-green-100 text-green-500 text-xs absolute bottom-3 right-2 border-2 border-green-300'>
-                {exam.duration} minutes
-            </span>
+            <div className='flex justify-between'>
+                <div>
+                    {exam.topics.map((tag, index) => {
+                        return (
+                            <span key={index} className='mr-1'>
+                                <Tags tag={tag} />
+                            </span>
+                        )
+                    })}
+                </div>
+                <div className=''>
+                    <span className='rounded-md px-2 py-1 bg-green-100 text-green-500 text-xs border-2 border-green-300 mx-2'>
+                        {exam.duration} minutes
+                    </span>
+                    <span className='rounded-md px-2 py-1 bg-green-200 text-green-500 text-xs border-2 border-green-300'>
+                        Schedule: {moment(exam.time).format('DD, MMMM HH:mm')}
+                    </span>
+                </div>
+            </div>
         </div>
     )
 }
