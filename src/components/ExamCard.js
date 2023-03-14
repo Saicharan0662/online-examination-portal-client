@@ -54,7 +54,7 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                                 toast.error('Exam has not been started yet')
                                 return toast(`Exam will start at ${moment(exam.time).format('DD, MMMM HH:mm')}`)
                             }
-                            if (date > exam.time + exam.duration * 60000) {
+                            if (date > moment(exam.time).add(exam.duration, 'minutes').toISOString()) {
                                 return toast.error('Exam has been finished')
                             }
                             navigate(`/exam/${exam._id}`)
