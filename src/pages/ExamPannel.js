@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import axios from 'axios';
 import '../axios';
+// import io from 'socket.io-client';
 import QuestionCard from '../components/QuestionCard';
 import CountDownTimer from '../components/CountDownTimer';
 import Button from '@mui/material/Button';
 import { Chip } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+
+// const socket = io.connect('http://localhost:5001');
 
 const ExamPannel = () => {
 
