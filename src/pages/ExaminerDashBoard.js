@@ -8,11 +8,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
+let socket = io.connect('http://localhost:5000');
+
 const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const navigate = useNavigate()
     const [exams, setExams] = useState([])
-    let socket = io.connect('http://localhost:5001');
+
     const roomID = user.dedicatedRoomID;
 
     const joinRoom = () => {
