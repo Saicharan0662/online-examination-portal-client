@@ -77,13 +77,6 @@ const ExamPannel = () => {
 
     const closeCam = () => {
         fetch('http://127.0.0.1:5000/close_camera')
-        // .then(res => res?.json())
-        // .then(data => {
-        //     console.log(data)
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        // })
     }
 
     return (
@@ -106,7 +99,6 @@ const ExamPannel = () => {
                                 />}
                         </p>
                     </span>
-                    <button onClick={() => closeCam()}>close</button>
                     <Button variant='outlined' className='rounded-md' size='small' color='success' style={{ color: 'lightgreen' }} onClick={() => setOpen(true)}>Submit</Button>
                 </div>
                 <div className=' w-1/5 absolute left-0 bottom-0 pt-16 px-2 dark-blue-bg flex flex-col justify-between' style={{ height: '99.7vh' }}>
