@@ -8,35 +8,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
-let socket = io.connect('http://localhost:5000');
-
 const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const navigate = useNavigate()
     const [exams, setExams] = useState([])
 
     const roomID = user.dedicatedRoomID;
-
-    const joinRoom = () => {
-        console.log(roomID, socket)
-        socket.emit('join-room', { roomID });
-        socket.on('connect', () => {
-            console.log('Connected to server!');
-        });
-
-        socket.on('disconnect', () => {
-            console.log('Disconnected from server!');
-        });
-        socket.on('userJoined', (users) => {
-            console.log('Users in the room:', users);
-        });
-        socket.on('stream', (stream) => {
-            console.log('Received stream:', stream);
-        });
-        socket.on('roomJoined', (data) => {
-            console.log('You have joined the room:', data.roomId);
-        });
-    }
 
     const getExams = () => {
         setIsLoading(true)
@@ -69,7 +46,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
                             <h1 className='text-xl font-bold'>Dashboard</h1>
                             <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />} onClick={() => navigate('/create-exam')}>Create exam</Button>
                             <Button variant='contained' className='rounded-md' size='small' color='secondary' onClick={() => navigate(`/result/examiner/${user.userID}`)}>Results</Button>
-                            <Button variant="outlined" className='rounded-md' size='small' color="info" onClick={() => joinRoom()}> Invigilate </Button>
+                            <Button variant="outlined" className='rounded-md' size='small' color="info" onClick={() => { }}> Invigilate </Button>
                         </div>
                     </div>
                     <div className='my-6'>

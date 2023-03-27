@@ -12,7 +12,6 @@ import ExamResult from './pages/ExamResult';
 import Results from './pages/Results';
 import SingleExamResults from './pages/SingleExamResults';
 import ExaminerResults from './pages/ExaminerResults';
-import Room from './pages/Room'
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
       <Router>
         <Routes>
           <Route exact path='/' element={<Home />} />
-          <Route exact path='/:roomID' element={<Room />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
