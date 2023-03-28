@@ -89,11 +89,13 @@ const ExamPannel = () => {
             .catch(err => {
                 console.log(err)
             })
-    }
 
-    const closeCam = () => {
         fetch('http://127.0.0.1:5000/close_camera')
     }
+
+    // const closeCam = () => {
+    //     fetch('http://127.0.0.1:5000/close_camera')
+    // }
 
     return (
         <>

@@ -54,6 +54,8 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
             .catch(err => {
                 console.log(err)
             })
+
+        fetch('http://127.0.0.1:5000/close_camera')
     }
 
     return (

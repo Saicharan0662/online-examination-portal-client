@@ -1,12 +1,39 @@
 from flask import Flask, render_template, Response, jsonify, request, json
 from flask_cors import CORS
-import cv2 as cv
-import time
-
+from flask_mongoengine import MongoEngine
+import configparser
 from camera import VideoCamera
 
 app = Flask(__name__)
 CORS(app)
+
+config = configparser.ConfigParser()
+config.read('.ini')
+app.config["MONGODB_HOST"] = config['DEV']['DB_URI']
+db = MongoEngine(app)
+
+
+class Proctor_Data(db.Document):
+    username = db.StringField()
+    useremail = db.StringField()
+    examID = db.ObjectIdField()
+    userID = db.ObjectIdField()
+    left_turn_count = db.IntField()
+    right_turn_count = db.IntField()
+    max_left_turn_duration = db.IntField()
+    max_right_turn_duration = db.IntField()
+
+    def to_json(self):
+        return {
+            "username": self.username,
+            "useremail": self.useremail,
+            "examID": self.examID,
+            "userID": self.userID,
+            "left_turn_count": self.left_turn_count,
+            "right_turn_count": self.right_turn_count,
+            "max_left_turn_duration": self.max_left_turn_duration,
+            "max_right_turn_duration": self.max_right_turn_duration
+        }
 
 
 @app.route('/')
@@ -26,7 +53,7 @@ def gen(camera):
 def video_feed():
     global cam
     cam = VideoCamera()
-    cam.get_proctoring_data()
+    cam.init_proctoring_process()
     return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -35,8 +62,18 @@ def video_feed():
 def save_proctoring_data():
     req = request.get_data()
     req = json.loads(req)
-    cam.save_proctoring_data(req['userID'], req['username'],
-                             req['useremail'], req['examID'])
+    userID, username, useremail, examID, = req['userID'], req['username'], \
+        req['useremail'], req['examID']
+    res = cam.get_proctoring_data()
+    print(userID, username, useremail, examID)
+    print(res)
+
+    # saving/updating in db
+    proctor_data = Proctor_Data.objects(userID=userID, examID=examID).first()
+    if proctor_data is None:
+        print("data not present")
+    else:
+        print("data present")
     return jsonify(success=True)
 
 
