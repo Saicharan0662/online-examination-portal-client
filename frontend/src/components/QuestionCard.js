@@ -28,16 +28,16 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
             object.response.push(temp);
         }
 
-        // axios.post(`/result/submit/${examID}`, {
-        //     response: { ...object }
-        // })
-        //     .then(res => {
-        //         // console.log(res)
-        //         navigate(`/exam/result/${res.data.result._id}`)
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
+        axios.post(`/result/submit/${examID}`, {
+            response: { ...object }
+        })
+            .then(res => {
+                // console.log(res)
+                navigate(`/exam/result/${res.data.result._id}`)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
         fetch(`http://127.0.0.1:5000/save_proctoring_data`, {
             method: 'POST',
