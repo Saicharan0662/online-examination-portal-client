@@ -73,6 +73,22 @@ const ExamPannel = () => {
         }).catch(err => {
             console.log(err)
         })
+
+        fetch(`http://127.0.0.1:5000/save_proctoring_data`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: JSON.parse(localStorage.getItem('userData')).user.userID,
+                examID: examID,
+                username: JSON.parse(localStorage.getItem('userData')).user.name,
+                useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+            })
+        })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const closeCam = () => {

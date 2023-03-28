@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, jsonify
+from flask import Flask, render_template, Response, jsonify, request, json
 from flask_cors import CORS
 import cv2 as cv
 import time
@@ -26,8 +26,18 @@ def gen(camera):
 def video_feed():
     global cam
     cam = VideoCamera()
+    cam.get_proctoring_data()
     return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/save_proctoring_data', methods=['POST'])
+def save_proctoring_data():
+    req = request.get_data()
+    req = json.loads(req)
+    cam.save_proctoring_data(req['userID'], req['username'],
+                             req['useremail'], req['examID'])
+    return jsonify(success=True)
 
 
 @app.route('/close_camera', methods=['GET'])

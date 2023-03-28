@@ -28,12 +28,28 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
             object.response.push(temp);
         }
 
-        axios.post(`/result/submit/${examID}`, {
-            response: { ...object }
+        // axios.post(`/result/submit/${examID}`, {
+        //     response: { ...object }
+        // })
+        //     .then(res => {
+        //         // console.log(res)
+        //         navigate(`/exam/result/${res.data.result._id}`)
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+
+        fetch(`http://127.0.0.1:5000/save_proctoring_data`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: JSON.parse(localStorage.getItem('userData')).user.userID,
+                examID: examID,
+                username: JSON.parse(localStorage.getItem('userData')).user.name,
+                useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+            })
         })
             .then(res => {
-                // console.log(res)
-                navigate(`/exam/result/${res.data.result._id}`)
+                console.log(res)
             })
             .catch(err => {
                 console.log(err)
