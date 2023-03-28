@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_mongoengine import MongoEngine
 import configparser
 from camera import VideoCamera
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -20,8 +21,9 @@ class Proctor_Data(db.Document):
     userID = db.ObjectIdField()
     left_turn_count = db.IntField()
     right_turn_count = db.IntField()
-    max_left_turn_duration = db.IntField()
-    max_right_turn_duration = db.IntField()
+    max_left_turn_duration = db.DecimalField()
+    max_right_turn_duration = db.DecimalField()
+    moved_out_of_frame = db.BooleanField()
 
     def to_json(self):
         return {
@@ -32,7 +34,8 @@ class Proctor_Data(db.Document):
             "left_turn_count": self.left_turn_count,
             "right_turn_count": self.right_turn_count,
             "max_left_turn_duration": self.max_left_turn_duration,
-            "max_right_turn_duration": self.max_right_turn_duration
+            "max_right_turn_duration": self.max_right_turn_duration,
+            "moved_out_of_frame": self.moved_out_of_frame,
         }
 
 
@@ -65,15 +68,17 @@ def save_proctoring_data():
     userID, username, useremail, examID, = req['userID'], req['username'], \
         req['useremail'], req['examID']
     res = cam.get_proctoring_data()
-    print(userID, username, useremail, examID)
-    print(res)
+    left_turn_count, right_turn_count, max_left_turn_duration, max_right_turn_duration, moved_out_of_frame = res
 
     # saving/updating in db
     proctor_data = Proctor_Data.objects(userID=userID, examID=examID).first()
     if proctor_data is None:
-        print("data not present")
+        Proctor_Data(userID=userID, username=username,
+                     useremail=useremail, examID=examID, left_turn_count=left_turn_count, right_turn_count=right_turn_count,
+                     max_left_turn_duration=max_left_turn_duration, max_right_turn_duration=max_right_turn_duration, moved_out_of_frame=moved_out_of_frame).save()
     else:
-        print("data present")
+        proctor_data.update(left_turn_count=left_turn_count, right_turn_count=right_turn_count,
+                            max_left_turn_duration=max_left_turn_duration, max_right_turn_duration=max_right_turn_duration, moved_out_of_frame=moved_out_of_frame)
     return jsonify(success=True)
 
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import PopUp from './PopUp';
 import axios from 'axios';
@@ -13,6 +13,31 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQuestion, setQuestionStatus, questionStatus, counts, open, setOpen, exam, examID }) => {
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+            fetch(`http://127.0.0.1:5000/save_proctoring_data`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    userID: JSON.parse(localStorage.getItem('userData')).user.userID,
+                    examID: examID,
+                    username: JSON.parse(localStorage.getItem('userData')).user.name,
+                    useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+                })
+            })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }, 5 * 1000);
+
+        return () => {
+            clearInterval(intervalID);
+        }
+    }, [])
+
 
     const handleSubmit = () => {
         let object = {};
