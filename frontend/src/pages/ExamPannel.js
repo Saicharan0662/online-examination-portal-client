@@ -20,6 +20,7 @@ const ExamPannel = () => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
     const [counts, setCounts] = useState({ answered: 0, flagged: 0, rest: 0 })
+    const [siteLeaveCount, setSiteLeaveCount] = useState(0)
 
     useEffect(() => {
         setLoading(true)
@@ -35,6 +36,45 @@ const ExamPannel = () => {
                 console.log(err)
                 setLoading(false)
             })
+    }, [])
+
+    const handleVisibilityChange = () => {
+        if (document.hidden == true) {
+            setSiteLeaveCount(siteLeaveCount => siteLeaveCount + 1)
+        }
+    }
+    const handleBeforeUnload = (e) => {
+        e.preventDefault();
+        // alert('If you close the site then the exam will be submitted automatically and you will not be allowed to retake the examination')
+        // handleSubmit();
+        return "message"
+    }
+
+
+    useEffect(() => {
+        if (siteLeaveCount === 0) return;
+        if (siteLeaveCount === 1) {
+            alert('You have left the site once. If you leave again, your exam will be submitted automatically.')
+        }
+        else {
+            handleSubmit()
+        }
+    }, [siteLeaveCount])
+
+    useEffect(() => {
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        }
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', (e) => handleBeforeUnload(e));
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        }
     }, [])
 
     useEffect(() => {
