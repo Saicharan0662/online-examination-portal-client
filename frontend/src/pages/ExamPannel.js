@@ -43,13 +43,6 @@ const ExamPannel = () => {
             setSiteLeaveCount(siteLeaveCount => siteLeaveCount + 1)
         }
     }
-    const handleBeforeUnload = (e) => {
-        e.preventDefault();
-        // alert('If you close the site then the exam will be submitted automatically and you will not be allowed to retake the examination')
-        // handleSubmit();
-        return "message"
-    }
-
 
     useEffect(() => {
         if (siteLeaveCount === 0) return;
@@ -66,14 +59,6 @@ const ExamPannel = () => {
 
         return () => {
             document.removeEventListener('visibilitychange', handleVisibilityChange);
-        }
-    }, [])
-
-    useEffect(() => {
-        window.addEventListener('beforeunload', (e) => handleBeforeUnload(e));
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
         }
     }, [])
 
