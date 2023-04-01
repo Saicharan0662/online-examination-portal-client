@@ -58,9 +58,12 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                                 return toast.error('Exam has been finished')
                             }
                             // window.open(`/exam/${exam._id}`, '_blank')
-                            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,topbar=no,
-width=1000,height=1000,left=0,top=0,fullscreen=yes`;
-                            window.open(`/exam/${exam._id}`, 'test', params)
+                            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,topbar=no,left=0,top=0`;
+
+
+                            let customWindow = window.open(`/exam/${exam._id}`, 'test', params)
+                            // customWindow.document.documentElement.requestFullscreen();
+                            customWindow.resizeTo(window.screen.width, window.screen.height);
                         }
                         else registerStudent()
                     }}>
