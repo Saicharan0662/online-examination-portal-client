@@ -57,7 +57,10 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                             if (date > moment(exam.time).add(exam.duration, 'minutes').toISOString()) {
                                 return toast.error('Exam has been finished')
                             }
-                            navigate(`/exam/${exam._id}`)
+                            // window.open(`/exam/${exam._id}`, '_blank')
+                            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,topbar=no,
+width=1000,height=1000,left=0,top=0,fullscreen=yes`;
+                            window.open(`/exam/${exam._id}`, 'test', params)
                         }
                         else registerStudent()
                     }}>

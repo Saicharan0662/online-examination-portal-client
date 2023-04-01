@@ -81,6 +81,7 @@ const ExamPannel = () => {
                 examID: examID,
                 username: JSON.parse(localStorage.getItem('userData')).user.name,
                 useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+                is_submitted: true
             })
         })
             .then(res => {

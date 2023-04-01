@@ -11,6 +11,7 @@ CORS(app)
 config = configparser.ConfigParser()
 config.read('.ini')
 app.config["MONGODB_HOST"] = config['DEV']['DB_URI']
+app.config['DEBUG'] = True
 db = MongoEngine(app)
 
 
@@ -24,6 +25,7 @@ class Proctor_Data(db.Document):
     max_left_turn_duration = db.DecimalField()
     max_right_turn_duration = db.DecimalField()
     moved_out_of_frame = db.BooleanField()
+    is_submitted = db.BooleanField(default=False)
 
     def to_json(self):
         return {
@@ -36,6 +38,7 @@ class Proctor_Data(db.Document):
             "max_left_turn_duration": self.max_left_turn_duration,
             "max_right_turn_duration": self.max_right_turn_duration,
             "moved_out_of_frame": self.moved_out_of_frame,
+            "is_submitted": self.is_submitted
         }
 
 
@@ -65,8 +68,8 @@ def video_feed():
 def save_proctoring_data():
     req = request.get_data()
     req = json.loads(req)
-    userID, username, useremail, examID, = req['userID'], req['username'], \
-        req['useremail'], req['examID']
+    userID, username, useremail, examID, is_submitted = req['userID'], req['username'], \
+        req['useremail'], req['examID'], req['is_submitted']
     res = cam.get_proctoring_data()
     left_turn_count, right_turn_count, max_left_turn_duration, max_right_turn_duration, moved_out_of_frame = res
 
@@ -78,7 +81,7 @@ def save_proctoring_data():
                      max_left_turn_duration=max_left_turn_duration, max_right_turn_duration=max_right_turn_duration, moved_out_of_frame=moved_out_of_frame).save()
     else:
         proctor_data.update(left_turn_count=left_turn_count, right_turn_count=right_turn_count,
-                            max_left_turn_duration=max_left_turn_duration, max_right_turn_duration=max_right_turn_duration, moved_out_of_frame=moved_out_of_frame)
+                            max_left_turn_duration=max_left_turn_duration, max_right_turn_duration=max_right_turn_duration, moved_out_of_frame=moved_out_of_frame, is_submitted=is_submitted)
     return jsonify(success=True)
 
 

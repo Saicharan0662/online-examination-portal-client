@@ -23,6 +23,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                     examID: examID,
                     username: JSON.parse(localStorage.getItem('userData')).user.name,
                     useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+                    is_submitted: false
                 })
             })
                 .then(res => {
@@ -71,6 +72,7 @@ const QuestionCard = ({ question, response, setResponse, currQuestion, setCurrQu
                 examID: examID,
                 username: JSON.parse(localStorage.getItem('userData')).user.name,
                 useremail: JSON.parse(localStorage.getItem('userData')).user.email,
+                is_submitted: true
             })
         })
             .then(res => {
