@@ -58,6 +58,7 @@ const InvRoom = () => {
                                 maxRightDur={item.max_right_turn_duration}
                                 movedOutOfFrame={item.moved_out_of_frame}
                                 isSubmitted={item.is_submitted}
+                                lastUpdated={item.timestamp}
                             />
                         )
                     })}

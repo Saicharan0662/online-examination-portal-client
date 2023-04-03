@@ -4,6 +4,7 @@ from flask_mongoengine import MongoEngine
 import configparser
 from camera import VideoCamera
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -26,6 +27,7 @@ class Proctor_Data(db.Document):
     max_right_turn_duration = db.DecimalField()
     moved_out_of_frame = db.BooleanField()
     is_submitted = db.BooleanField(default=False)
+    timestamp = db.DateTimeField(default=datetime.utcnow())
 
     def to_json(self):
         return {
