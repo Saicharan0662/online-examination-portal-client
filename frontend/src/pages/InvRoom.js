@@ -9,7 +9,7 @@ const InvRoom = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState(null)
 
-    useEffect(() => {
+    const getData = () => {
         setIsLoading(true)
         axios.get('/proctor/data')
             .then(res => {
@@ -21,6 +21,17 @@ const InvRoom = () => {
                 toast.error(err.response.data.msg)
                 setIsLoading(false)
             })
+    }
+
+    useEffect(() => {
+        getData()
+        const intervalId = setInterval(() => {
+            getData()
+        }, 5 * 1000)
+
+        return () => {
+            clearInterval(intervalId)
+        }
     }, [])
 
     return (
