@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import moment from 'moment/moment'
 import axios from 'axios'
@@ -10,6 +10,8 @@ import editIcon from '../asserts/icons/edit.png'
 
 
 const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
+
+    const customWindowRef = useRef(null)
 
     const navigate = useNavigate();
     const deleteExam = (examID) => {
@@ -40,6 +42,38 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
             })
     }
 
+    const handleBeforeUnload = (e) => {
+        e.preventDefault();
+        return e.returnValue = ""
+    }
+
+    const disableReload = e => {
+        if (e.which === 116) {
+            e.preventDefault();
+        }
+        if (e.which === 82 && e.ctrlKey) {
+            e.preventDefault();
+        }
+    }
+
+    const cretateNewWindow = () => {
+        let params = `scrollbars=no,resizable=no,location=no,toolbar=no,menubar=no,topbar=no,left=0,top=0,popup=yes`;
+        customWindowRef.current = window.open(`/exam/${exam._id}`, 'test', params)
+        customWindowRef.current.resizeTo(window.screen.width, window.screen.height);
+        customWindowRef.current.addEventListener('beforeunload', handleBeforeUnload);
+        customWindowRef.current.addEventListener('keydown', disableReload)
+    }
+
+    useEffect(() => {
+        return () => {
+            if (customWindowRef.current) {
+                customWindowRef.current.removeEventListener('beforeunload', handleBeforeUnload);
+                customWindowRef.current.removeEventListener('keydown', disableReload);
+                customWindowRef.current.close()
+            }
+        }
+    }, [])
+
     return (
         <div className='rounded-md px-6 bg-white py-3 relative exam-card-width'>
             <Toaster />
@@ -57,13 +91,8 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                             if (date > moment(exam.time).add(exam.duration, 'minutes').toISOString()) {
                                 return toast.error('Exam has been finished')
                             }
-                            // window.open(`/exam/${exam._id}`, '_blank')
-                            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,topbar=no,left=0,top=0`;
 
-
-                            let customWindow = window.open(`/exam/${exam._id}`, 'test', params)
-                            // customWindow.document.documentElement.requestFullscreen();
-                            customWindow.resizeTo(window.screen.width, window.screen.height);
+                            cretateNewWindow()
                         }
                         else registerStudent()
                     }}>
