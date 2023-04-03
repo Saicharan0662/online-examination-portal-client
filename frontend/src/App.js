@@ -12,6 +12,7 @@ import ExamResult from './pages/ExamResult';
 import Results from './pages/Results';
 import SingleExamResults from './pages/SingleExamResults';
 import ExaminerResults from './pages/ExaminerResults';
+import InvRoom from './pages/InvRoom';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/dashboard' element={<Dashboard />} />
+          <Route exact path='/inv-room' element={<InvRoom />} />
           <Route exact path='/dashboard/exam-topics/:topics' element={<Dashboard />} />
           <Route exact path='/reset-password/:token' element={<ResetPassword />} />
           <Route exact path='/activate/:userType/:token' element={<ActivateAccount />} />

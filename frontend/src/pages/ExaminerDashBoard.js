@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import '../axios';
-import io from 'socket.io-client';
 import ExamCard from '../components/ExamCard';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
@@ -12,8 +11,6 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
 
     const navigate = useNavigate()
     const [exams, setExams] = useState([])
-
-    const roomID = user.dedicatedRoomID;
 
     const getExams = () => {
         setIsLoading(true)
@@ -46,7 +43,7 @@ const ExaminerDashBoard = ({ user, isLoading, setIsLoading }) => {
                             <h1 className='text-xl font-bold'>Dashboard</h1>
                             <Button variant='contained' className='rounded-md' size='small' color='success' startIcon={<AddIcon />} onClick={() => navigate('/create-exam')}>Create exam</Button>
                             <Button variant='contained' className='rounded-md' size='small' color='secondary' onClick={() => navigate(`/result/examiner/${user.userID}`)}>Results</Button>
-                            <Button variant="outlined" className='rounded-md' size='small' color="info" onClick={() => { }}> Invigilate </Button>
+                            <Button variant="outlined" className='rounded-md' size='small' color="info" onClick={() => navigate(`/inv-room`)}> Invigilate </Button>
                         </div>
                     </div>
                     <div className='my-6'>
