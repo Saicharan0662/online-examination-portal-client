@@ -30,7 +30,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         answer: { id: 1, value: 'option 2' },
     })
     const [isLoading, setIsLoading] = useState(false)
-    // const [image, setImage] = useState(null)
+    const [link, setLink] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
 
     const handleImageSubmit = async (image) => {
@@ -124,6 +124,28 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
         })
     }
 
+    const getQuesionsFromWebLink = () => {
+        if (!link) {
+            toast.error("Please enter link")
+            return;
+        }
+        setIsLoading(true)
+        fetch("http://127.0.0.1:5000/generate_questions", {
+            method: "POST",
+            body: JSON.stringify({
+                link: link
+            })
+        })
+            .then(res => {
+                console.log(res)
+                setIsLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setIsLoading(false)
+            })
+    }
+
     return (
         <div>
             <Toaster />
@@ -139,7 +161,14 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                     </div>
                     <h2 className='text-center my-6'>OR</h2>
                 </div>
-                {console.log(saved.questions)}
+                <div>
+                    <div>
+                        <p>Generate with link</p>
+                        <input type="text" value={link} onChange={e => setLink(e.target.value)} />
+                        <button type='button' onClick={() => getQuesionsFromWebLink()}>GO</button>
+                    </div>
+                    <h2 className='text-center my-6'>OR</h2>
+                </div>
                 {saved && saved.questions && saved.questions.length > 0 &&
                     <div className=''>
                         {

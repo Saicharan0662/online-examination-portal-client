@@ -3,6 +3,8 @@ from flask_cors import CORS
 from flask_mongoengine import MongoEngine
 import configparser
 from camera import VideoCamera
+from scrapper import Scrapper
+from ner import NER
 import time
 from datetime import datetime
 
@@ -90,6 +92,30 @@ def save_proctoring_data():
 @app.route('/close_camera', methods=['GET'])
 def close_camera():
     cam.close_camera()
+    return jsonify(success=True)
+
+
+@app.route('/generate_questions', methods=['POST'])
+def generate_questions():
+    req = request.get_data()
+    req = json.loads(req)
+    link = req['link']
+
+    global scrapper
+    scrapper = Scrapper(link)
+    p_tags_data, count = scrapper.get_scrapped_data()
+    text = (p_tags_data)
+
+    global ner
+    ner = NER(text)
+    questions, options, answers = ner.get_mcq_questions()
+
+    for i in range(len(answers)):
+        print(questions[i])
+        print(options[i])
+        print(answers[i])
+        print('\n')
+
     return jsonify(success=True)
 
 
