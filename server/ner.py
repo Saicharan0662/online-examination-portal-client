@@ -142,3 +142,59 @@ class NER():
                 options[i][idx] = answers[i]
 
         return questions, options, answers
+
+    def getAnswerfield(self, option, answer):
+        if answer not in option:
+            return -1
+        idx = option.index(answer)
+        if idx == 0:
+            return "option 1"
+        elif idx == 1:
+            return "option 2"
+        elif idx == 2:
+            return "option 3"
+        return "option 4"
+
+    def getQuestionIndex(self, questions, ques):
+        for i in range(len(questions)):
+            if questions[i]['question'] == ques:
+                return i
+        return -1
+
+    def format_questions(self, questions, options, answers):
+        final_questions = []
+        myset = set()
+        for i in range(len(questions)):
+            _ques = {}
+            sent_no = questions[i][0]
+            cat = questions[i][1]
+            ques = questions[i][2]
+            ans = self.getAnswerfield(options[i], answers[i])
+
+            if ans == -1:
+                continue
+
+            if sent_no in myset:
+                idx = self.getQuestionIndex(final_questions, ques)
+                if cat == 'DATE':
+                    final_questions[idx] = {
+                        "question": ques,
+                        "options": options[i],
+                        "answer": ans
+                    }
+                elif ques.find("_______") != -1:
+                    final_questions[idx] = {
+                        "question": ques,
+                        "options": options[i],
+                        "answer": ans
+                    }
+                continue
+
+            myset.add(sent_no)
+            _ques['question'] = ques
+            _ques['options'] = options[i]
+            _ques['answer'] = ans
+
+            final_questions.append(_ques)
+
+        return final_questions

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
 import readXlsxFile from 'read-excel-file'
 import axios from 'axios';
@@ -32,6 +32,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
     const [isLoading, setIsLoading] = useState(false)
     const [link, setLink] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
+    const [questionsFromNER, setQuestionsFromNER] = useState(null)
 
     const handleImageSubmit = async (image) => {
         if (!image) {
@@ -113,7 +114,8 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             description: data[0].description,
             duration: data[0].duration,
             topics: [...createdTopics],
-            questions: [...createdQuestions]
+            questions: [...createdQuestions],
+            time: data[0].time,
         }).then(res => {
             setIsLoading(false)
             toast.success('Exam created successfully')
@@ -136,8 +138,17 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                 link: link
             })
         })
-            .then(res => {
-                console.log(res)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                // select 50 random questions from data.questions
+                let selectedQuestions = []
+                for (let i = 0; i < 50; i++) {
+                    let randomIndex = Math.floor(Math.random() * data.questions.length)
+                    selectedQuestions.push(data.questions[randomIndex])
+                    data.questions.splice(randomIndex, 1)
+                }
+                setQuestionsFromNER(selectedQuestions)
                 setIsLoading(false)
             })
             .catch(err => {
@@ -145,6 +156,33 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                 setIsLoading(false)
             })
     }
+
+    useEffect(() => {
+        if (!questionsFromNER) return;
+
+        let createdTopics = []
+        data[0].topics.map((item, i) => (
+            createdTopics.push(item.title)
+        ))
+
+        axios.post(`/exam`, {
+            name: data[0].name,
+            description: data[0].description,
+            duration: data[0].duration,
+            topics: [...createdTopics],
+            questions: [...questionsFromNER],
+            time: data[0].time,
+        }).then(res => {
+            setIsLoading(false)
+            toast.success('Exam created successfully')
+            navigate('/dashboard')
+        }).catch(err => {
+            toast.error(err.response.data.msg)
+            setIsLoading(false)
+        })
+
+    }, [questionsFromNER])
+
 
     return (
         <div>

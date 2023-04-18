@@ -109,14 +109,11 @@ def generate_questions():
     global ner
     ner = NER(text)
     questions, options, answers = ner.get_mcq_questions()
+    final_questions = ner.format_questions(questions, options, answers)
 
-    for i in range(len(answers)):
-        print(questions[i])
-        print(options[i])
-        print(answers[i])
-        print('\n')
+    # print(final_questions)
 
-    return jsonify(success=True)
+    return jsonify(questions=final_questions, success=True)
 
 
 if __name__ == '__main__':
