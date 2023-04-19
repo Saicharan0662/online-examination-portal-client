@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { ArrowBack } from '@mui/icons-material';
 import deleteIcon from '../asserts/icons/delete.png'
+import QuestionDialog from '../components/QuestionDialog'
 
 const quizOptions = [
     { id: '0', value: 'option 1' },
@@ -33,6 +34,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
     const [link, setLink] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
     const [questionsFromNER, setQuestionsFromNER] = useState(null)
+    const [open, setOpen] = useState(false)
 
     const handleImageSubmit = async (image) => {
         if (!image) {
@@ -150,6 +152,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
                 }
                 setQuestionsFromNER(selectedQuestions)
                 setIsLoading(false)
+                setOpen(true)
             })
             .catch(err => {
                 console.log(err)
@@ -157,7 +160,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             })
     }
 
-    useEffect(() => {
+    const saveData = () => {
         if (!questionsFromNER) return;
 
         let createdTopics = []
@@ -180,9 +183,7 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             toast.error(err.response.data.msg)
             setIsLoading(false)
         })
-
-    }, [questionsFromNER])
-
+    }
 
     return (
         <div>
@@ -367,6 +368,15 @@ const QuestionForm = ({ data, setData, index, step, setStep, saved = null, creat
             }}>
                 Submit
             </Button>
+
+            {/* Dialog for generated questions */}
+            <QuestionDialog
+                open={open}
+                setOpen={setOpen}
+                data={questionsFromNER}
+                regenerate={getQuesionsFromWebLink}
+                saveData={saveData}
+            />
         </div>
     )
 }

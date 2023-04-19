@@ -190,7 +190,6 @@ const ExamForm = () => {
                                         )}
                                     />
                                     <label htmlFor="datetime">time</label>
-                                    {console.log(input.time)}
                                     <input type="datetime-local" name="datetime" id="datetime" value={input.time?.split('.')[0]} onChange={e => setInput({ ...input, time: e.target.value })} />
 
                                 </div>
