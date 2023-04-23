@@ -96,12 +96,15 @@ class NER():
                 continue
 
             ques = str(sentence[sent_no])
+            if ques.count('(') > 0 or ques.count(')') < 0:
+                continue
             if ents_elm[3] == 'DATE':
-                ques = ques.replace(ents_elm[0], 'which year')
+                ques = ques.replace(ents_elm[0], 'which year/date')
             else:
                 ques = ques.replace(ents_elm[0], "_______")
-            questions.append((sent_no, ents_elm[3], ques))
-            answers.append(ents_elm[0])
+            if (ents_elm[3] == 'DATE' or '_____' in ques) and len(ques) > 60:
+                questions.append((sent_no, ents_elm[3], ques))
+                answers.append(ents_elm[0])
 
         for ent in ents:
             if ent[3] == 'DATE':
