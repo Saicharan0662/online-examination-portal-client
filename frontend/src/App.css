@@ -54,6 +54,18 @@
     font: bold;
 }
 
+.link-btn {
+    padding: 2px 5px;
+    font-size: 12px;
+    background-color: rgba(50, 190, 218, 0.808);
+    border: 2px solid rgb(83, 189, 255);
+    border-radius: 5px;
+    color: white;
+    position: absolute;
+    top: 8px;
+    right: 14%;
+}
+
 @media screen and (max-width: 1072px) {
     .exam-card-width {
         width: 500px;

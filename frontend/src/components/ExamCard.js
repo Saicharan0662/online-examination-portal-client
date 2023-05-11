@@ -100,6 +100,14 @@ const ExamCard = ({ exam, setIsLoading, getExams, student = false }) => {
                     </button>
                     :
                     <>
+                        <button className='link-btn'
+                            onClick={() => {
+                                navigator.clipboard.writeText(`http://localhost:3000/exam-info/${exam.name}/${exam._id}`)
+                                toast.success('Link copied')
+                            }}
+                        >
+                            Copy Link
+                        </button>
                         <img src={deleteIcon} alt="delete" className='h-5 absolute top-3 right-2 cursor-pointer'
                             onClick={() => deleteExam(exam._id)}
                         />

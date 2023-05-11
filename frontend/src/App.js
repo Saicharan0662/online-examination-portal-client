@@ -13,6 +13,7 @@ import Results from './pages/Results';
 import SingleExamResults from './pages/SingleExamResults';
 import ExaminerResults from './pages/ExaminerResults';
 import InvRoom from './pages/InvRoom';
+import Exam from './pages/Exam';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route exact path='/results/:studentID' element={<Results />} />
           <Route exact path='/edit-exam/:examID' element={<ExamForm />} />
           <Route exact path='/exam/:examID' element={<ExamPannel />} />
+          <Route exact path='/exam-info/:examName/:examID' element={<Exam />} />
           <Route exact path='/exam/result/:resultID' element={<ExamResult />} />
           <Route exact path='/result/exam/:examID/:studentID' element={<SingleExamResults />} />
           <Route exact path='/result/examiner/:examinerID/' element={<ExaminerResults />} />
